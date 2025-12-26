@@ -20,15 +20,10 @@ public class UserDao {
         }
 
     public User[] getUsers() {
-        // return a defensive copy so callers cannot modify internal array directly
-        return Arrays.copyOf(users, users.length);
+        return users;
     }
 
     public boolean addUser(User user) {
-
-        if (user == null){
-            throw new IllegalArgumentException("user can't be null");
-        }
 
         int index = 0;
         for (User existing : users) {
