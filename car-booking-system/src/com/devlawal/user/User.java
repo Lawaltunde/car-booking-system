@@ -5,10 +5,19 @@ import java.util.UUID;
 
 public class User {
     private String name;
+    private UUID id;
     private String email;
     private Integer age;
-    private UUID id;
 
+    public User(String name, String email, Integer age, UUID id) {
+        this.name = name;
+        this.email = email;
+        this.age = age;
+        this.id = id;
+    }
+
+    public User() {
+    }
 
     public String getName() {
         return name;
