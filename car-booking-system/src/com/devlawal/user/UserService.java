@@ -1,12 +1,13 @@
 package com.devlawal.user;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public class UserService {
     private final UserDao userDao = new UserDao();
 
     // all users are retuned including the empty slots (nulls)
-    public User[] getAllUsers(){
+    private User[] getAllUsers(){
         return userDao.getUsers();
     }
 
@@ -29,6 +30,17 @@ public class UserService {
         }
 
         return available;
+    }
+
+    public User getUserById(UUID id){
+        if (id == null)
+            return null;
+
+        for (User user : getOnlyAvailableUser()) {
+            if (user.getId() != null && user.getId().equals(id))
+                return user;
+        }
+        return null;
     }
 
     public boolean addUser(User user){
