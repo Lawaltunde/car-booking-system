@@ -12,7 +12,6 @@ public class UserService {
     }
 
     public User[] getOnlyAvailableUser() {
-        // Use arrays only: count non-null entries, allocate a right-sized array, copy
         User[] all = getAllUsers();
         if (all == null || all.length == 0) return new User[0];
 
@@ -32,6 +31,7 @@ public class UserService {
         return available;
     }
 
+    // returns user corresponding to the given id
     public User getUserById(UUID id){
         if (id == null)
             return null;
@@ -43,6 +43,7 @@ public class UserService {
         return null;
     }
 
+    // adds user to database
     public boolean addUser(User user){
         // user can't be null
         Objects.requireNonNull(user, "user can't be null");
