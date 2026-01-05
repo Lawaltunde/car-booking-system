@@ -43,14 +43,6 @@ public class BookingService {
         Objects.requireNonNull(booking.getBookingTime(), "booking time can't be null");
         Objects.requireNonNull(booking.getUser().getId(), "user id can't be null");
 
-//        Booking[] allTheBookings = getAllBookingsWithFreeSlots();
-//        if ( allTheBookings[0] == null) {
-//            boolean isAdded =  bookingDao.addBooking(booking);
-//            if (isAdded) {
-//                System.out.println("Booking added");
-//                return booking.getBookingId();
-//            }
-//        }
         for (Booking allBooking : getAllBookings()) {
             if(allBooking.getCar().getId().equals(booking.getCar().getId())){
                 System.out.println("Car already booked");
@@ -58,31 +50,16 @@ public class BookingService {
             }
 
         }
-        boolean isAdded =  bookingDao.addBooking(booking);
-        if (isAdded) {
-            System.out.println("Booking added");
-            return booking.getBookingId();
-        }
-
-//        for (Booking theBooking : allTheBookings) {
-//            if (theBooking != null && theBooking.getCar().getId().equals(booking.getCar().getId())){
-//                System.out.println("Car already booked");
-//                throw new IllegalArgumentException("Car already booked");
-//            }
-//            if (theBooking != null && theBooking.getUser().getId().equals(booking.getUser().getId())){
-//                System.out.println("User already booked");
-//                throw new IllegalArgumentException("User already booked");
-//            }
-//        }
-//        boolean isAdded = bookingDao.addBooking(booking);
-        return isAdded ? booking.getBookingId() : null;
+        bookingDao.addBooking(booking);
+        System.out.println("Booking added");
+        return booking.getBookingId();
     }
 
     // checks if user is booked
     public Booking checkIfUserIsBooked(UUID id){
         User aUser = userService.getUserById(id);
         if (getAllBookings().length == 0) {
-            throw new IllegalArgumentException("No bookings yet for " + aUser);
+            throw new IllegalArgumentException("No bookings yet!");
         }
         if (id == null) {
             System.out.println("Wrong input");

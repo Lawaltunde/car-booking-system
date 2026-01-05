@@ -12,22 +12,15 @@ public class Booking {
     private LocalDateTime bookingTime;
     private Car car;
     private User user;
-    //private boolean bookingCanceled;
+    private boolean isBooked;
 
-//    public Booking(UUID bookingId, LocalDateTime bookingTime, Car car, User user, boolean bookingCanceled) {
-//        this.bookingId = bookingId;
-//        this.bookingTime = bookingTime;
-//        this.car = car;
-//        this.user = user;
-//        this.bookingCanceled = bookingCanceled;
-//    }
 
     public Booking(UUID bookingId, LocalDateTime bookingTime, Car car, User user) {
         this.bookingId = bookingId;
         this.bookingTime = bookingTime;
         this.car = car;
         this.user = user;
-        //this.bookingCanceled = true;
+        this.isBooked = false;
     }
 
     public UUID getBookingId() {
@@ -62,13 +55,14 @@ public class Booking {
         this.user = user;
     }
 
-//    public boolean isBookingCanceled() {
-//        return bookingCanceled;
-//    }
-//
-//    public void setBookingCanceled(boolean bookingCanceled) {
-//        this.bookingCanceled = bookingCanceled;
-//    }
+
+    public boolean isBooked() {
+        return isBooked;
+    }
+
+    public void setBooked(boolean booked) {
+        this.isBooked = booked;
+    }
 
     @Override
     public String toString() {
@@ -77,7 +71,7 @@ public class Booking {
                 ", bookingTime=" + bookingTime +
                 ", car=" + car +
                 ", user=" + user +
-//                ", bookingCanceled=" + bookingCanceled +
+                ", bookingCanceled=" + isBooked +
                 '}';
     }
 
@@ -85,11 +79,11 @@ public class Booking {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Booking booking = (Booking) o;
-        return Objects.equals(bookingId, booking.bookingId) && Objects.equals(bookingTime, booking.bookingTime) && Objects.equals(car, booking.car) && Objects.equals(user, booking.user);
+        return isBooked == booking.isBooked && Objects.equals(bookingId, booking.bookingId) && Objects.equals(bookingTime, booking.bookingTime) && Objects.equals(car, booking.car) && Objects.equals(user, booking.user);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(bookingId, bookingTime, car, user);
+        return Objects.hash(bookingId, bookingTime, car, user, isBooked);
     }
 }

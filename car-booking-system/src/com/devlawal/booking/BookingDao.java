@@ -25,14 +25,13 @@ public class BookingDao {
             if (booking.getUser().getId().equals(id)) {
                 return booking.getUser();
             }
-            }
+        }
         return null;
         }
 
-        public boolean addBooking(Booking booking) {
+        public void addBooking(Booking booking) {
             if (size < bookings.length){
                 bookings[size++] = booking;
-                return true;
             }
             Booking[] moreBookings = new Booking[bookings.length + 5];
             int index = 0;
@@ -42,7 +41,6 @@ public class BookingDao {
             moreBookings[index] = booking;
             size++;
             bookings = moreBookings;
-            return true;
         }
 
         // returns all the available bookings

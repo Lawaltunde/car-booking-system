@@ -10,8 +10,6 @@ public class CarService {
 // returns all cars in database
     public Car[] getAllCars() {
         Car[] daoCars = carDao.getCars();
-//        if (daoCars == null || daoCars.length == 0)
-//            return new Car[0];
 
         int index = 0;
         for (Car car : daoCars) {

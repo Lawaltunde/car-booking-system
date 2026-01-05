@@ -27,9 +27,7 @@ public class Main {
             opt = scanner.nextInt();
         } catch (IllegalArgumentException e) {
             System.out.println("Invalid input. Please enter a number between 1 and 7.");
-            //throw new IllegalArgumentException("Invalid input. Please enter a number between 1 and 7.");
       } catch (Exception e) {
-            //System.out.println("Invalid input. Please enter a number between 1 and 7.");
             e.getStackTrace();
         }
         return opt;
