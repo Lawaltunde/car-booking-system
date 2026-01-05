@@ -2,6 +2,7 @@ package com.devlawal.booking;
 
 import com.devlawal.user.User;
 
+import java.security.cert.TrustAnchor;
 import java.util.UUID;
 
 public class BookingDao {
@@ -29,9 +30,11 @@ public class BookingDao {
         return null;
         }
 
-        public void addBooking(Booking booking) {
+        public boolean addBooking(Booking booking) {
             if (size < bookings.length){
                 bookings[size++] = booking;
+                booking.setBooked( true);
+                return booking.isBooked();
             }
             Booking[] moreBookings = new Booking[bookings.length + 5];
             int index = 0;
@@ -41,6 +44,8 @@ public class BookingDao {
             moreBookings[index] = booking;
             size++;
             bookings = moreBookings;
+            booking.setBooked( true);
+            return booking.isBooked();
         }
 
         // returns all the available bookings

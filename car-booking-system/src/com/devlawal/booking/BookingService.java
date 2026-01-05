@@ -19,7 +19,7 @@ public class BookingService {
         userService = new UserService();
     }
 
-    // returns all bookings in database
+    // returns all bookings in a database
     public Booking[] getAllBookings(){
         Booking[] theBookings =  bookingDao.getAllBookingsWithoutNull();
         if (theBookings.length == 0)
@@ -50,19 +50,23 @@ public class BookingService {
             }
 
         }
-        bookingDao.addBooking(booking);
+        boolean isBooked=  bookingDao.addBooking(booking);
+        if (!isBooked) {
+            System.out.println("Booking failed");
+            throw new IllegalArgumentException("Booking failed");
+        }
         System.out.println("Booking added");
         return booking.getBookingId();
     }
 
-    // checks if user is booked
+    // checks if a user is booked
     public Booking checkIfUserIsBooked(UUID id){
         User aUser = userService.getUserById(id);
         if (getAllBookings().length == 0) {
             throw new IllegalArgumentException("No bookings yet!");
         }
         if (id == null) {
-            System.out.println("Wrong input");
+            System.out.println("Id can't be null!" );
             throw new IllegalArgumentException("Wrong input, id can't be null");
         }
 
@@ -88,7 +92,7 @@ public class BookingService {
         return getCars(allElectricCarsCars);
     }
 
-    // use to get all available cars and it used in getAllAvailableCars and getAllAvailableElectricCar
+    // use to get all available cars and it used to getAllAvailableCars and getAllAvailableElectricCar
     private Car[] getCars(Car[] candidateCars) {
         Booking[] allBookings = getAllBookings();
         if (candidateCars == null || candidateCars.length == 0)
@@ -102,7 +106,7 @@ public class BookingService {
             for (Booking booking : allBookings) {
                 if (booking == null || booking.getCar() == null || booking.getCar().getId() == null)
                     continue;
-                if (car.getId().equals(booking.getCar().getId())) {
+                if (car.getId().equals(booking.getCar().getId()) && booking.isBooked()) {
                     booked = true;
                     break;
                 }
@@ -111,7 +115,7 @@ public class BookingService {
                 index++;
             }
         }
-        Car[] availableCars = new Car[candidateCars.length - index];
+        Car[] car = new Car[index];
         int availableIndex = 0;
         for (Car aCar : candidateCars) {
             if (aCar == null)
@@ -120,15 +124,16 @@ public class BookingService {
             for (Booking booking : allBookings) {
                 if (booking == null || booking.getCar() == null || booking.getCar().getId() == null)
                     continue;
-                if (aCar.getId().equals(booking.getCar().getId())) {
+                if (aCar.getId().equals(booking.getCar().getId()) && booking.isBooked()) {
                     booked = true;
                     break;
                 }
             }
-            if (!booked && availableIndex < availableCars.length) {
-                availableCars[availableIndex++] = aCar;
+            if (!booked && availableIndex < car.length) {
+                car[availableIndex++] = aCar;
             }
         }
-        return availableCars;
+        return car;
     }
+
 }

@@ -114,14 +114,20 @@ public class Main {
                     opt = inputErrorHandler();
                     break;
                 case 4:
-                    for (Car car : bookingService.getAllAvailableCars()) {
+                    Car[] allAvailableCars = bookingService.getAllAvailableCars();
+                    if (allAvailableCars.length == 0)
+                        System.out.println("No cars available, sorry!");
+                    for (Car car : allAvailableCars) {
                         System.out.println(car);
                     }
                     printMenu();
                     opt = inputErrorHandler();
                     break;
                 case 5:
-                    for (Car electricCar: bookingService.getAllAvailableElectricCar()) {
+                    Car[] allAvailableElectricCar = bookingService.getAllAvailableElectricCar();
+                    if (allAvailableElectricCar.length == 0)
+                        System.out.println("No electric cars available, sorry!");
+                    for (Car electricCar: allAvailableElectricCar) {
                         System.out.println(electricCar);
                     }
                     printMenu();
