@@ -1,7 +1,9 @@
 package com.devlawal.car;
 
-import java.lang.constant.Constable;
+import com.devlawal.user.User;
+
 import java.math.BigDecimal;
+import java.util.UUID;
 
 public class CarDao {
     private static Car[] cars;
@@ -39,8 +41,22 @@ public class CarDao {
 
     public Car getCarById(String id){
         for (Car car : cars) {
-            if (car.getId().equals(id)) return car;
+            if (car.getRegNumber().equals(id)) return car;
         }
         return null;
+    }
+    public void deleteCar(UUID userId){
+        int pos = 0;
+        for (User user : users) {
+            if (user.getId().equals(userId)){
+                users[pos] = null;
+                break;
+            }
+            pos++;
+        }
+        for (int i = pos; i < (users.length - 1); i++) {
+            users[i] = users[i+1];
+        }
+        users[users.length - 1] = null;
     }
 }

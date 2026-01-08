@@ -48,7 +48,7 @@ public class Main {
                         String id = scanner.nextLine().trim();
                         Car car = null;
                         for (Car vehicle : carService.getAllCars()) {
-                            if (vehicle != null && vehicle.getId().equals(id)){
+                            if (vehicle != null && vehicle.getRegNumber().equals(id)){
                                 car = vehicle;
                                 break;
                             }

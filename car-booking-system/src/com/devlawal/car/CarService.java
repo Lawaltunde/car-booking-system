@@ -1,6 +1,5 @@
 package com.devlawal.car;
 
-import java.util.Arrays;
 import java.util.Objects;
 import java.math.BigDecimal;
 
@@ -64,15 +63,15 @@ public class CarService {
             throw new IllegalArgumentException("car can't be null");
 
         // validate required fields early to avoid NPEs during duplicate checks
-        Objects.requireNonNull(car.getId(), "car id can't be null");
+        Objects.requireNonNull(car.getRegNumber(), "car id can't be null");
         Objects.requireNonNull(car.getBrand(), "car brand can't be null");
         Objects.requireNonNull(car.getPricePerDay(), "car price can't be null");
         if (car.getPricePerDay().compareTo(BigDecimal.ZERO) < 0)
             throw new IllegalArgumentException("car price can't be negative");
 
         for (Car aCar : getAllCars()) {
-            if (aCar != null && aCar.getId() != null && aCar.getId().equals(car.getId()))
-                throw new IllegalArgumentException("car with id " + car.getId() + " already exists");
+            if (aCar != null && aCar.getRegNumber() != null && aCar.getRegNumber().equals(car.getRegNumber()))
+                throw new IllegalArgumentException("car with id " + car.getRegNumber() + " already exists");
         }
 
         return carDao.addCar(car);

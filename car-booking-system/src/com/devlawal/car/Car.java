@@ -4,21 +4,21 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 public class Car {
-    private String id;
+    private String regNumber;
     private Brand brand;
     private BigDecimal pricePerDay;
     private boolean isElectric;
 
 
-    public Car(String id, Brand brand, BigDecimal pricePerDay, boolean isElectric) {
-        this.id = id;
+    public Car(String regNumber, Brand brand, BigDecimal pricePerDay, boolean isElectric) {
+        this.regNumber = regNumber;
         this.brand = brand;
         this.pricePerDay = pricePerDay;
         this.isElectric = isElectric;
     }
 
-    public Car(String id, Brand brand, BigDecimal pricePerDay) {
-        this.id = id;
+    public Car(String regNumber, Brand brand, BigDecimal pricePerDay) {
+        this.regNumber = regNumber;
         this.brand = brand;
         this.pricePerDay = pricePerDay;
         this.isElectric = false;
@@ -27,12 +27,12 @@ public class Car {
     public Car() {
     }
 
-    public String getId() {
-        return id;
+    public String getRegNumber() {
+        return regNumber;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setRegNumber(String regNumber) {
+        this.regNumber = regNumber;
     }
 
     public Brand getBrand() {
@@ -62,7 +62,7 @@ public class Car {
     @Override
     public String toString() {
         return "Car{" +
-                "id='" + id + '\'' +
+                "id='" + regNumber + '\'' +
                 ", brand=" + brand +
                 ", pricePerDay=" + pricePerDay +
                 ", isElectric=" + isElectric +
@@ -73,11 +73,11 @@ public class Car {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Car car = (Car) o;
-        return isElectric == car.isElectric && Objects.equals(id, car.id) && brand == car.brand && Objects.equals(pricePerDay, car.pricePerDay);
+        return isElectric == car.isElectric && Objects.equals(regNumber, car.regNumber) && brand == car.brand && Objects.equals(pricePerDay, car.pricePerDay);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, brand, pricePerDay, isElectric);
+        return Objects.hash(regNumber, brand, pricePerDay, isElectric);
     }
 }

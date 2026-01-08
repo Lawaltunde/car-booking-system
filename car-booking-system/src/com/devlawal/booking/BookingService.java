@@ -44,7 +44,7 @@ public class BookingService {
         Objects.requireNonNull(booking.getUser().getId(), "user id can't be null");
 
         for (Booking allBooking : getAllBookings()) {
-            if(allBooking.getCar().getId().equals(booking.getCar().getId())){
+            if(allBooking.getCar().getRegNumber().equals(booking.getCar().getRegNumber())){
                 System.out.println("Car already booked");
                 throw new IllegalArgumentException("Car already booked");
             }
@@ -104,9 +104,9 @@ public class BookingService {
         for (Car car : candidateCars) {
             boolean booked = false;
             for (Booking booking : allBookings) {
-                if (booking == null || booking.getCar() == null || booking.getCar().getId() == null)
+                if (booking == null || booking.getCar() == null || booking.getCar().getRegNumber() == null)
                     continue;
-                if (car.getId().equals(booking.getCar().getId()) && booking.isBooked()) {
+                if (car.getRegNumber().equals(booking.getCar().getRegNumber()) && booking.isBooked()) {
                     booked = true;
                     break;
                 }
@@ -122,9 +122,9 @@ public class BookingService {
                 continue;
             boolean booked = false;
             for (Booking booking : allBookings) {
-                if (booking == null || booking.getCar() == null || booking.getCar().getId() == null)
+                if (booking == null || booking.getCar() == null || booking.getCar().getRegNumber() == null)
                     continue;
-                if (aCar.getId().equals(booking.getCar().getId()) && booking.isBooked()) {
+                if (aCar.getRegNumber().equals(booking.getCar().getRegNumber()) && booking.isBooked()) {
                     booked = true;
                     break;
                 }
