@@ -43,6 +43,9 @@ public class UserDao {
     }
 
     public void deleteUser(UUID userId){
+        if (userId == null){
+            throw new IllegalArgumentException("id can't be null");
+        }
         int pos = 0;
         for (User user : users) {
             if (user.getId().equals(userId)){

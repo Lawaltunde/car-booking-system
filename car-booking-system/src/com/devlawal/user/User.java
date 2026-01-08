@@ -8,12 +8,14 @@ public class User {
     private UUID id;
     private String email;
     private Integer age;
+    private boolean isAvailable;
 
     public User(String name, String email, Integer age, UUID id) {
         this.name = name;
         this.email = email;
         this.age = age;
         this.id = id;
+        this.isAvailable = true;
     }
 
     public User() {
@@ -47,13 +49,21 @@ public class User {
         this.email = email;
     }
 
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+    public void setAvailable(boolean available) {
+        isAvailable = available;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "name='" + name + '\'' +
+                ", id=" + id +
                 ", email='" + email + '\'' +
                 ", age=" + age +
-                ", id=" + id +
+                ", isAvailable=" + isAvailable +
                 '}';
     }
 
@@ -61,11 +71,11 @@ public class User {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(name, user.name) && Objects.equals(email, user.email) && Objects.equals(age, user.age) && Objects.equals(id, user.id);
+        return isAvailable == user.isAvailable && Objects.equals(name, user.name) && Objects.equals(id, user.id) && Objects.equals(email, user.email) && Objects.equals(age, user.age);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, email, age, id);
+        return Objects.hash(name, id, email, age, isAvailable);
     }
 }

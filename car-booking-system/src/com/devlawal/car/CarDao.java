@@ -43,6 +43,9 @@ public class CarDao {
         return null;
     }
     public void deleteCar(String regNumber){
+        if (regNumber == null){
+            throw new IllegalArgumentException("id can't be null");
+        }
         int pos = 0;
         for (Car car : cars) {
             if (car.getRegNumber().equals(regNumber)){

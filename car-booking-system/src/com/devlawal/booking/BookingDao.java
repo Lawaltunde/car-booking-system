@@ -1,8 +1,5 @@
 package com.devlawal.booking;
 
-import com.devlawal.user.User;
-
-import java.security.cert.TrustAnchor;
 import java.util.UUID;
 
 public class BookingDao {
@@ -12,23 +9,6 @@ public class BookingDao {
     static {
         bookings = new Booking[0];
     }
-
-    public Booking[] getAllBookings() {
-        return bookings;
-    }
-
-    public User checkIfUserIsBooked(UUID id) {
-        if (id == null)
-            return null;
-        for (Booking booking : getAllBookings()) {
-            if (booking == null || booking.getUser() == null || booking.getUser().getId() == null)
-                continue;
-            if (booking.getUser().getId().equals(id)) {
-                return booking.getUser();
-            }
-        }
-        return null;
-        }
 
         public boolean addBooking(Booking booking) {
             if (size < bookings.length){
@@ -49,9 +29,9 @@ public class BookingDao {
         }
 
         // returns all the available bookings
-        public Booking[] getAllBookingsWithoutNull() {
+        public Booking[] getAllBookings() {
             int counter = 0;
-            for (Booking abooking : getAllBookings()) {
+            for (Booking abooking : bookings) {
                 if (abooking != null) {
                     counter++;
                 }
@@ -68,5 +48,24 @@ public class BookingDao {
             }
             return availableBooking;
 
+        }
+
+        public void deleteBooking(UUID bookingId){
+            if (bookingId == null){
+                throw new IllegalArgumentException("id can't be null");
+            }
+            int pos = 0;
+            for (Booking booking : bookings) {
+                if (booking != null && booking.getBookingId() != null && booking.getBookingId().equals(bookingId)){
+                    bookings[pos] = null;
+                    break;
+                }
+                pos++;
+            }
+            for (int i = pos; i < (bookings.length - 1); i++) {
+                bookings[i] = bookings[i+1];
+            }
+            bookings[bookings.length - 1] = null;
+            size--;
         }
 }
