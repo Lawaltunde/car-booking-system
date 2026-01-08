@@ -10,6 +10,7 @@ public class BookingDao {
         bookings = new Booking[0];
     }
 
+    // adds a booking to database
         public boolean addBooking(Booking booking) {
             if (size < bookings.length){
                 bookings[size++] = booking;
@@ -50,6 +51,7 @@ public class BookingDao {
 
         }
 
+        // deletes a booking from the database
         public void deleteBooking(UUID bookingId){
             if (bookingId == null){
                 throw new IllegalArgumentException("id can't be null");
