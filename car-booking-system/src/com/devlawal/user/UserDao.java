@@ -37,13 +37,23 @@ public class UserDao {
         // No null slot found -> array is full. Expand and append the user.
         User[] moreUsers = new User[users.length + 5];
         System.arraycopy(users, 0, moreUsers, 0, users.length);
-        moreUsers[users.length] = user; // place new user at first new slot
+        moreUsers[users.length] = user;
         users = moreUsers;
         return true;
     }
 
-//    public boolean deleteUser(UUID userId){
-//        //to be implemented
-//        return false;
-//    }
+    public void deleteUser(UUID userId){
+        int pos = 0;
+        for (User user : users) {
+            if (user.getId().equals(userId)){
+                users[pos] = null;
+                break;
+            }
+            pos++;
+        }
+        for (int i = pos; i < (users.length - 1); i++) {
+            users[i] = users[i+1];
+        }
+        users[users.length - 1] = null;
+    }
 }
