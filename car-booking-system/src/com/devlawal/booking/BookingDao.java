@@ -41,7 +41,7 @@ public class BookingDao {
 
             Booking[] availableBooking = new Booking[counter];
             int i = 0;
-            for (Booking abooking : getAllBookings()) {
+            for (Booking abooking : bookings) {
                 if (abooking != null) {
                     availableBooking[i++] = abooking;
                 }

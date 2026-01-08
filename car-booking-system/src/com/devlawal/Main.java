@@ -39,8 +39,6 @@ public class Main {
     private static void userInput(UserService userService, BookingService bookingService, CarService carService) {
         int opt = inputErrorHandler();
         while (opt <= 7) {
-            printMenu();
-            opt = inputErrorHandler();
             switch (opt) {
                 case 1:
                     for (Car car : carService.getAllCars()) {
@@ -82,7 +80,7 @@ public class Main {
                     for (User u : user) {
                         System.out.println(u);
                     }
-                    System.out.println("Select the user's id you will like to be checked");
+                    System.out.println("Select the user's id you will like to checked");
                     try {
                         Scanner scanner = new Scanner(System.in);
                         String id = scanner.nextLine().trim();
@@ -99,7 +97,7 @@ public class Main {
                             System.out.println( thatUser + " has no car booked yet");
                         else
                             System.out.println(thatUser + " has been booked for: " + booking.getCar() + " on " + booking.getBookingTime());
-                    } catch (IllegalArgumentException e) {
+                    } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
                     break;
@@ -128,7 +126,8 @@ public class Main {
                     }
                     break;
                 case 6:
-                    for (User user1 : userService.getAllUsers()) {
+                    User[] users = userService.getAllUsers();
+                    for (User user1 : users) {
                         System.out.println(user1);
                     }
                     break;
@@ -139,6 +138,8 @@ public class Main {
                 default:
                     System.out.println("Invalid input. Please enter a number between 1 and 7.");
             }
+            printMenu();
+            opt = inputErrorHandler();
         }
     }
 
