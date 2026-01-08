@@ -20,11 +20,22 @@ The project uses plain Java (no external libraries) and stores data in arrays (n
 ```
 car-booking-system/
 ├─ src/
-│  ├─ Main.java                # CLI entrypoint
-│  └─ com/devlawal/
-│     ├─ car/                  # Car model, DAO, and service (array-backed)
-│     ├─ user/                 # User model, DAO, and service (array-backed)
-│     └─ booking/              # Booking model, DAO, and service (array-backed)
+│  └─ com/
+│     └─ devlawal/
+│        ├─ Main.java                # CLI entrypoint (located at src/com/devlawal/Main.java)
+│        ├─ car/               # Car model, DAO, and service (array-backed)
+│        │  ├─ Brand.java
+│        │  ├─ Car.java
+│        │  ├─ CarDao.java
+│        │  └─ CarService.java
+│        ├─ user/              # User model, DAO, and service (array-backed)
+│        │  ├─ User.java
+│        │  ├─ UserDao.java
+│        │  └─ UserService.java
+│        └─ booking/           # Booking model, DAO, and service (array-backed)
+│           ├─ Booking.java
+│           ├─ BookingDao.java
+│           └─ BookingService.java
 ├─ README.md
 ```
 
@@ -48,10 +59,10 @@ Notes:
    mkdir -p out && javac -d out $(find src -name "*.java")
    ```
 
-3. Run the program from the project root:
+3. Run the program from the project root (Main is in package `com.devlawal` so use the fully-qualified name):
 
    ```bash
-   java -cp out Main
+   java -cp out com.devlawal.Main
    ```
 
 4. Use the numeric menu to interact with the application (e.g., `1` to book a car, `7` to exit).
