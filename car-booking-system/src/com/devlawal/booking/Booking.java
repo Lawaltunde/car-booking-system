@@ -14,13 +14,12 @@ public class Booking {
     private User user;
     private boolean isBooked;
 
-
-    public Booking(UUID bookingId, LocalDateTime bookingTime, Car car, User user) {
-        this.bookingId = bookingId;
+    public Booking(LocalDateTime bookingTime, Car car, User user) {
         this.bookingTime = bookingTime;
         this.car = car;
         this.user = user;
         this.isBooked = false;
+        this.bookingId = UUID.randomUUID();
     }
 
     public UUID getBookingId() {

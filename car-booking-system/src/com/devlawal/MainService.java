@@ -56,9 +56,8 @@ public class MainService {
                         String userId = scanner.nextLine().trim();
                         UUID theUserId = UUID.fromString(userId);
                         User user = userService.getUserById(theUserId);
-                        UUID bookingId = UUID.randomUUID();
                         LocalDateTime bookingTime = LocalDateTime.now();
-                        Booking booking = new Booking(bookingId, bookingTime, car, user);
+                        Booking booking = new Booking(bookingTime, car, user);
                         bookingService.bookCar(booking);
                         System.out.println("Booking was successful for " + booking.getUser() +
                                 " for " + booking.getCar() + " on " + booking.getBookingTime() + "with booking id: " + booking.getBookingId() + "!");
