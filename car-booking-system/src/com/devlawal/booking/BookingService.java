@@ -22,8 +22,9 @@ public class BookingService {
     // returns all bookings in a database
     public Booking[] getAllBookings() {
         Booking[] theBookings = bookingDao.getAllBookings();
-        if (theBookings.length == 0)
+        if (theBookings.length == 0) {
             return new Booking[0];
+        }
         return theBookings;
     }
 
@@ -96,17 +97,20 @@ public class BookingService {
     // use to get all available cars and it used to getAllAvailableCars and getAllAvailableElectricCar
     private Car[] getBookedCar(Car[] candidateCars) {
         Booking[] allBookings = getAllBookings();
-        if (candidateCars == null || candidateCars.length == 0)
+        if (candidateCars == null || candidateCars.length == 0) {
             return new Car[0];
-        if (allBookings.length == 0)
+        }
+        if (allBookings.length == 0) {
             return candidateCars;
+        }
 
         int index = 0;
         for (Car car : candidateCars) {
             boolean booked = false;
             for (Booking booking : allBookings) {
-                if (booking == null || booking.getCar() == null || booking.getCar().getRegNumber() == null)
+                if (booking == null || booking.getCar() == null || booking.getCar().getRegNumber() == null) {
                     continue;
+                }
                 if (car.getRegNumber().equals(booking.getCar().getRegNumber()) && booking.isBooked()) {
                     booked = true;
                     break;
@@ -119,12 +123,14 @@ public class BookingService {
         Car[] car = new Car[index];
         int availableIndex = 0;
         for (Car aCar : candidateCars) {
-            if (aCar == null)
+            if (aCar == null) {
                 continue;
+            }
             boolean booked = false;
             for (Booking booking : allBookings) {
-                if (booking == null || booking.getCar() == null || booking.getCar().getRegNumber() == null)
+                if (booking == null || booking.getCar() == null || booking.getCar().getRegNumber() == null) {
                     continue;
+                }
                 if (aCar.getRegNumber().equals(booking.getCar().getRegNumber()) && booking.isBooked()) {
                     booked = true;
                     break;

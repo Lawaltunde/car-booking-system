@@ -30,10 +30,9 @@ public class MainService {
     }
 
     public static void userInput(UserService userService, BookingService bookingService, CarService carService) {
-//        int opt = inputErrorHandler();
         boolean currentStatus = true;
         while (currentStatus) {
-           int  opt = inputErrorHandler();
+            int opt = inputErrorHandler();
             switch (opt) {
                 case 1:
                     for (Car car : carService.getAllCars()) {
@@ -69,8 +68,9 @@ public class MainService {
                     break;
                 case 2:
                     User[] user = userService.getAllUsers();
-                    if (user.length == 0)
+                    if (user.length == 0) {
                         System.out.println("No users yet, sorry!");
+                    }
                     for (User u : user) {
                         System.out.println(u);
                     }
@@ -85,34 +85,36 @@ public class MainService {
                             break;
                         }
                         Booking booking = bookingService.checkBookedUser(theId);
-                        if (booking == null)
+                        if (booking == null) {
                             System.out.println(thatUser + " has no car booked yet");
-                        else
+                        } else {
                             System.out.println(thatUser + " has been booked for: " + booking.getCar() + " on " + booking.getBookingTime());
+                        }
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
                     break;
                 case 3:
                     Booking[] bookings = bookingService.getAllBookings();
-                    if (bookings.length == 0)
+                    if (bookings.length == 0) {
                         System.out.println("No bookings yet, sorry!");
+                    }
                     for (Booking booking : bookings) {
                         System.out.println(booking);
                     }
                     break;
                 case 4:
                     Car[] allAvailableCars = bookingService.getAllBookedCar();
-                    if (allAvailableCars.length == 0)
+                    if (allAvailableCars.length == 0) {
                         System.out.println("No cars available, sorry!");
+                    }
                     for (Car car : allAvailableCars) {
                         System.out.println(car);
                     }
                     break;
                 case 5:
                     Car[] allAvailableElectricCar = bookingService.getAllBookedElectricCar();
-                    if (allAvailableElectricCar.length == 0)
-                    {
+                    if (allAvailableElectricCar.length == 0) {
                         System.out.println("No electric cars available, sorry!");
                     }
                     for (Car electricCar : allAvailableElectricCar) {

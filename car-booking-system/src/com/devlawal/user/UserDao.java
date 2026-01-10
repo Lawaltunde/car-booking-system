@@ -1,7 +1,6 @@
 package com.devlawal.user;
 
 import java.util.UUID;
-import java.util.Arrays;
 
 public class UserDao {
     private static User[] users;

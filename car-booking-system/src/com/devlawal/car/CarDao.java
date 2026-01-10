@@ -19,8 +19,9 @@ public class CarDao {
     }
 
     public boolean addCar(Car car) {
-        if (car == null)
+        if (car == null) {
             throw new IllegalArgumentException("car can't be null");
+        }
         int index = 0;
         for (Car existing : cars) {
             if (existing == null) {
@@ -38,7 +39,9 @@ public class CarDao {
 
     public Car getCarById(String id) {
         for (Car car : cars) {
-            if (car.getRegNumber().equals(id)) return car;
+            if (car.getRegNumber().equals(id)) {
+                return car;
+            }
         }
         return null;
     }

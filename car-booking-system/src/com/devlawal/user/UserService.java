@@ -31,12 +31,13 @@ public class UserService {
 
     // returns user corresponding to the given id
     public User getUserById(UUID id) {
-        if (id == null)
+        if (id == null) {
             return null;
-
+        }
         for (User user : getAllUsers()) {
-            if (user.getId() != null && user.getId().equals(id))
+            if (user.getId() != null && user.getId().equals(id)) {
                 return user;
+            }
         }
         return null;
     }
@@ -45,11 +46,10 @@ public class UserService {
     public boolean addUser(User user) {
         // user can't be null
         Objects.requireNonNull(user, "user can't be null");
-
         Objects.requireNonNull(user.getAge(), "user age can't be null");
-        if (user.getAge() < 18)
+        if (user.getAge() < 18) {
             throw new IllegalArgumentException("user must be at least 18 years old");
-
+        }
         Objects.requireNonNull(user.getName(), "user name can't be null");
         Objects.requireNonNull(user.getEmail(), "user email can't be null");
         Objects.requireNonNull(user.getId(), "user id can't be null");
