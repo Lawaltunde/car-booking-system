@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 public class CarService {
     private final CarDao carDao = new CarDao();
 
-// returns all cars in database
+    // returns all cars in database
     public Car[] getAllCars() {
         Car[] daoCars = carDao.getCars();
 
@@ -25,8 +25,7 @@ public class CarService {
     }
 
     // returns all electric cars in database
-    public Car[] getAllElectricCars()
-    {
+    public Car[] getAllElectricCars() {
         Car[] all = getAllCars();
         if (all == null || all.length == 0) return new Car[0];
 
@@ -48,7 +47,7 @@ public class CarService {
     }
 
     // returns a car corresponds to given id
-    public Car getCarById(String id){
+    public Car getCarById(String id) {
         if (id == null || id.isBlank())
             throw new IllegalArgumentException("id can't be null or blank");
         Car theCar = carDao.getCarById(id);
@@ -58,7 +57,7 @@ public class CarService {
     }
 
     // adds a car to database
-    public boolean addCar(Car car){
+    public boolean addCar(Car car) {
         if (car == null)
             throw new IllegalArgumentException("car can't be null");
 

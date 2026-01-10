@@ -61,9 +61,11 @@ public class Car {
     public void setElectric(boolean electric) {
         isElectric = electric;
     }
+
     public boolean isAvailable() {
         return isAvailable;
     }
+
     public void setAvailable(boolean available) {
         isAvailable = available;
     }

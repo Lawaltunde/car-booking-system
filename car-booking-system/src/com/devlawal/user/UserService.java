@@ -42,7 +42,7 @@ public class UserService {
     }
 
     // adds user to database
-    public boolean addUser(User user){
+    public boolean addUser(User user) {
         // user can't be null
         Objects.requireNonNull(user, "user can't be null");
 
@@ -55,10 +55,10 @@ public class UserService {
         Objects.requireNonNull(user.getId(), "user id can't be null");
 
         for (User aUser : getAllUsers()) {
-            if (aUser != null && aUser.getId() != null && aUser.getId().equals(user.getId())){
+            if (aUser != null && aUser.getId() != null && aUser.getId().equals(user.getId())) {
                 throw new IllegalArgumentException("user with id " + user.getId() + " already exists");
             }
-            if (aUser != null && aUser.getEmail() != null && aUser.getEmail().equals(user.getEmail())){
+            if (aUser != null && aUser.getEmail() != null && aUser.getEmail().equals(user.getEmail())) {
                 throw new IllegalArgumentException("user with email " + user.getEmail() + " already exists");
             }
         }

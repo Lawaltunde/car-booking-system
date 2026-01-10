@@ -10,12 +10,12 @@ import static com.devlawal.MainService.userInput;
 
 public class Main {
     public static void main(String[] args) {
-       BookingService bookingService = new BookingService();
-       UserService userService = new UserService();
-       CarService carService = new CarService();
+        BookingService bookingService = new BookingService();
+        UserService userService = new UserService();
+        CarService carService = new CarService();
 
 
-         printMenu();
+        printMenu();
         userInput(userService, bookingService, carService);
     }
 }

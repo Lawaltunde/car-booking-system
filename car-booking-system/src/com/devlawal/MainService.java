@@ -43,7 +43,7 @@ public class MainService {
                         String id = scanner.nextLine().trim();
                         Car car = null;
                         for (Car vehicle : carService.getAllCars()) {
-                            if (vehicle != null && vehicle.getRegNumber().equals(id)){
+                            if (vehicle != null && vehicle.getRegNumber().equals(id)) {
                                 car = vehicle;
                                 break;
                             }
@@ -61,7 +61,7 @@ public class MainService {
                         bookingService.bookCar(booking);
                         System.out.println("Booking was successful for " + booking.getUser() +
                                 " for " + booking.getCar() + " on " + booking.getBookingTime() + "with booking id: " + booking.getBookingId() + "!");
-                    }catch (Exception e) {
+                    } catch (Exception e) {
                         System.out.println("Booking was unsuccessful " + e);
                     }
                     break;
@@ -84,7 +84,7 @@ public class MainService {
                         }
                         Booking booking = bookingService.checkBookedUser(theId);
                         if (booking == null)
-                            System.out.println( thatUser + " has no car booked yet");
+                            System.out.println(thatUser + " has no car booked yet");
                         else
                             System.out.println(thatUser + " has been booked for: " + booking.getCar() + " on " + booking.getBookingTime());
                     } catch (Exception e) {
@@ -110,8 +110,10 @@ public class MainService {
                 case 5:
                     Car[] allAvailableElectricCar = bookingService.getAllBookedElectricCar();
                     if (allAvailableElectricCar.length == 0)
+                    {
                         System.out.println("No electric cars available, sorry!");
-                    for (Car electricCar: allAvailableElectricCar) {
+                    }
+                    for (Car electricCar : allAvailableElectricCar) {
                         System.out.println(electricCar);
                     }
                     break;
@@ -133,7 +135,7 @@ public class MainService {
         }
     }
 
-   public static void printMenu() {
+    public static void printMenu() {
         String menu = """
                 1️⃣ - Book Car
                 2️⃣ - View All User Booked Cars
