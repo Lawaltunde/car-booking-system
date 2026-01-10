@@ -17,6 +17,7 @@ public class MainService {
 
     public static int inputErrorHandler() {
         int opt = 0;
+        printMenu();
         try {
             Scanner scanner = new Scanner(System.in);
             opt = scanner.nextInt();
@@ -26,12 +27,13 @@ public class MainService {
             e.getStackTrace();
         }
         return opt;
-
     }
 
     public static void userInput(UserService userService, BookingService bookingService, CarService carService) {
-        int opt = inputErrorHandler();
-        while (opt <= 7) {
+//        int opt = inputErrorHandler();
+        boolean currentStatus = true;
+        while (currentStatus) {
+           int  opt = inputErrorHandler();
             switch (opt) {
                 case 1:
                     for (Car car : carService.getAllCars()) {
@@ -125,13 +127,11 @@ public class MainService {
                     break;
                 case 7:
                     System.out.println("Exiting... Goodbye!");
-                    exit(99);
+                    currentStatus = false;
                     break;
                 default:
                     System.out.println("Invalid input. Please enter a number between 1 and 7.");
             }
-            printMenu();
-            opt = inputErrorHandler();
         }
     }
 
