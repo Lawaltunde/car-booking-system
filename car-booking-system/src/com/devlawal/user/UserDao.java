@@ -1,12 +1,9 @@
 package com.devlawal.user;
 
 import java.util.UUID;
-import java.util.Arrays;
 
 public class UserDao {
     private static User[] users;
-
-
 
 
     static {
@@ -17,7 +14,7 @@ public class UserDao {
         users[3] = new User("kamil", "kamil@drive.com", 45);
         users[4] = new User("bob", "bob@drive.com", 65);
 
-        }
+    }
 
     public User[] getUsers() {
         return users;
@@ -27,7 +24,7 @@ public class UserDao {
 
         int index = 0;
         for (User existing : users) {
-            if (existing == null){
+            if (existing == null) {
                 users[index] = user;
                 return true;
             }
@@ -42,20 +39,20 @@ public class UserDao {
         return true;
     }
 
-    public void deleteUser(UUID userId){
-        if (userId == null){
+    public void deleteUser(UUID userId) {
+        if (userId == null) {
             throw new IllegalArgumentException("id can't be null");
         }
         int pos = 0;
         for (User user : users) {
-            if (user.getId().equals(userId)){
+            if (user.getId().equals(userId)) {
                 users[pos] = null;
                 break;
             }
             pos++;
         }
         for (int i = pos; i < (users.length - 1); i++) {
-            users[i] = users[i+1];
+            users[i] = users[i + 1];
         }
         users[users.length - 1] = null;
     }

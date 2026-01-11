@@ -17,6 +17,7 @@ public class MainService {
 
     public static int inputErrorHandler() {
         int opt = 0;
+        printMenu();
         try {
             Scanner scanner = new Scanner(System.in);
             opt = scanner.nextInt();
@@ -26,12 +27,12 @@ public class MainService {
             e.getStackTrace();
         }
         return opt;
-
     }
 
     public static void userInput(UserService userService, BookingService bookingService, CarService carService) {
-        int opt = inputErrorHandler();
-        while (opt <= 7) {
+        boolean currentStatus = true;
+        while (currentStatus) {
+            int opt = inputErrorHandler();
             switch (opt) {
                 case 1:
                     for (Car car : carService.getAllCars()) {
@@ -43,7 +44,7 @@ public class MainService {
                         String id = scanner.nextLine().trim();
                         Car car = null;
                         for (Car vehicle : carService.getAllCars()) {
-                            if (vehicle != null && vehicle.getRegNumber().equals(id)){
+                            if (vehicle != null && vehicle.getRegNumber().equals(id)) {
                                 car = vehicle;
                                 break;
                             }
@@ -61,14 +62,15 @@ public class MainService {
                         bookingService.bookCar(booking);
                         System.out.println("Booking was successful for " + booking.getUser() +
                                 " for " + booking.getCar() + " on " + booking.getBookingTime() + "with booking id: " + booking.getBookingId() + "!");
-                    }catch (Exception e) {
+                    } catch (Exception e) {
                         System.out.println("Booking was unsuccessful " + e);
                     }
                     break;
                 case 2:
                     User[] user = userService.getAllUsers();
-                    if (user.length == 0)
+                    if (user.length == 0) {
                         System.out.println("No users yet, sorry!");
+                    }
                     for (User u : user) {
                         System.out.println(u);
                     }
@@ -83,35 +85,39 @@ public class MainService {
                             break;
                         }
                         Booking booking = bookingService.checkBookedUser(theId);
-                        if (booking == null)
-                            System.out.println( thatUser + " has no car booked yet");
-                        else
+                        if (booking == null) {
+                            System.out.println(thatUser + " has no car booked yet");
+                        } else {
                             System.out.println(thatUser + " has been booked for: " + booking.getCar() + " on " + booking.getBookingTime());
+                        }
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
                     break;
                 case 3:
                     Booking[] bookings = bookingService.getAllBookings();
-                    if (bookings.length == 0)
+                    if (bookings.length == 0) {
                         System.out.println("No bookings yet, sorry!");
+                    }
                     for (Booking booking : bookings) {
                         System.out.println(booking);
                     }
                     break;
                 case 4:
                     Car[] allAvailableCars = bookingService.getAllBookedCar();
-                    if (allAvailableCars.length == 0)
+                    if (allAvailableCars.length == 0) {
                         System.out.println("No cars available, sorry!");
+                    }
                     for (Car car : allAvailableCars) {
                         System.out.println(car);
                     }
                     break;
                 case 5:
                     Car[] allAvailableElectricCar = bookingService.getAllBookedElectricCar();
-                    if (allAvailableElectricCar.length == 0)
+                    if (allAvailableElectricCar.length == 0) {
                         System.out.println("No electric cars available, sorry!");
-                    for (Car electricCar: allAvailableElectricCar) {
+                    }
+                    for (Car electricCar : allAvailableElectricCar) {
                         System.out.println(electricCar);
                     }
                     break;
@@ -123,17 +129,15 @@ public class MainService {
                     break;
                 case 7:
                     System.out.println("Exiting... Goodbye!");
-                    exit(99);
+                    currentStatus = false;
                     break;
                 default:
                     System.out.println("Invalid input. Please enter a number between 1 and 7.");
             }
-            printMenu();
-            opt = inputErrorHandler();
         }
     }
 
-   public static void printMenu() {
+    public static void printMenu() {
         String menu = """
                 1️⃣ - Book Car
                 2️⃣ - View All User Booked Cars

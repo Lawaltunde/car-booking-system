@@ -18,12 +18,13 @@ public class CarDao {
         return cars;
     }
 
-    public boolean addCar(Car car){
-        if (car == null)
+    public boolean addCar(Car car) {
+        if (car == null) {
             throw new IllegalArgumentException("car can't be null");
+        }
         int index = 0;
         for (Car existing : cars) {
-            if (existing == null){
+            if (existing == null) {
                 cars[index] = car;
                 return true;
             }
@@ -36,26 +37,29 @@ public class CarDao {
         return true;
     }
 
-    public Car getCarById(String id){
+    public Car getCarById(String id) {
         for (Car car : cars) {
-            if (car.getRegNumber().equals(id)) return car;
+            if (car.getRegNumber().equals(id)) {
+                return car;
+            }
         }
         return null;
     }
-    public void deleteCar(String regNumber){
-        if (regNumber == null){
+
+    public void deleteCar(String regNumber) {
+        if (regNumber == null) {
             throw new IllegalArgumentException("id can't be null");
         }
         int pos = 0;
         for (Car car : cars) {
-            if (car.getRegNumber().equals(regNumber)){
+            if (car.getRegNumber().equals(regNumber)) {
                 cars[pos] = null;
                 break;
             }
             pos++;
         }
         for (int i = pos; i < (cars.length - 1); i++) {
-            cars[i] = cars[i+1];
+            cars[i] = cars[i + 1];
         }
         cars[cars.length - 1] = null;
     }

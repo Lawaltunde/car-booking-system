@@ -20,10 +20,11 @@ public class BookingService {
     }
 
     // returns all bookings in a database
-    public Booking[] getAllBookings(){
-        Booking[] theBookings =  bookingDao.getAllBookings();
-        if (theBookings.length == 0)
+    public Booking[] getAllBookings() {
+        Booking[] theBookings = bookingDao.getAllBookings();
+        if (theBookings.length == 0) {
             return new Booking[0];
+        }
         return theBookings;
     }
 
@@ -40,11 +41,11 @@ public class BookingService {
         Objects.requireNonNull(booking.getUser().getId(), "user id can't be null");
 
         for (Booking abooking : getAllBookings()) {
-            if(abooking.getCar().getRegNumber().equals(booking.getCar().getRegNumber())){
+            if (abooking.getCar().getRegNumber().equals(booking.getCar().getRegNumber())) {
                 System.out.println("Car already booked, please choose another car or check back later!");
                 throw new IllegalArgumentException("Car already booked");
             }
-            if (!booking.getUser().isAvailable()){
+            if (!booking.getUser().isAvailable()) {
                 System.out.println("User is not available, please choose another user or check back later!");
                 throw new IllegalArgumentException("User is not available");
             }
@@ -60,15 +61,16 @@ public class BookingService {
         booking.getCar().setAvailable(false);
         return booking.getBookingId();
     }
-// The below methods are used to check users, cars and electrical cars inside a booking database.
+
+    // The below methods are used to check users, cars and electrical cars inside a booking database.
     // checks if a user is on the booking list
-    public Booking checkBookedUser(UUID id){
+    public Booking checkBookedUser(UUID id) {
         User aUser = userService.getUserById(id);
         if (getAllBookings().length == 0) {
             throw new IllegalArgumentException("No bookings yet!");
         }
         if (id == null) {
-            System.out.println("Id can't be null!" );
+            System.out.println("Id can't be null!");
             throw new IllegalArgumentException("Wrong input, id can't be null");
         }
 
@@ -87,8 +89,7 @@ public class BookingService {
     }
 
     // returns all available electric cars in database
-    public Car[] getAllBookedElectricCar()
-    {
+    public Car[] getAllBookedElectricCar() {
         Car[] allElectricCarsCars = carService.getAllElectricCars();
         return getBookedCar(allElectricCarsCars);
     }
@@ -96,17 +97,20 @@ public class BookingService {
     // use to get all available cars and it used to getAllAvailableCars and getAllAvailableElectricCar
     private Car[] getBookedCar(Car[] candidateCars) {
         Booking[] allBookings = getAllBookings();
-        if (candidateCars == null || candidateCars.length == 0)
+        if (candidateCars == null || candidateCars.length == 0) {
             return new Car[0];
-        if (allBookings.length == 0)
+        }
+        if (allBookings.length == 0) {
             return candidateCars;
+        }
 
         int index = 0;
         for (Car car : candidateCars) {
             boolean booked = false;
             for (Booking booking : allBookings) {
-                if (booking == null || booking.getCar() == null || booking.getCar().getRegNumber() == null)
+                if (booking == null || booking.getCar() == null || booking.getCar().getRegNumber() == null) {
                     continue;
+                }
                 if (car.getRegNumber().equals(booking.getCar().getRegNumber()) && booking.isBooked()) {
                     booked = true;
                     break;
@@ -119,12 +123,14 @@ public class BookingService {
         Car[] car = new Car[index];
         int availableIndex = 0;
         for (Car aCar : candidateCars) {
-            if (aCar == null)
+            if (aCar == null) {
                 continue;
+            }
             boolean booked = false;
             for (Booking booking : allBookings) {
-                if (booking == null || booking.getCar() == null || booking.getCar().getRegNumber() == null)
+                if (booking == null || booking.getCar() == null || booking.getCar().getRegNumber() == null) {
                     continue;
+                }
                 if (aCar.getRegNumber().equals(booking.getCar().getRegNumber()) && booking.isBooked()) {
                     booked = true;
                     break;
