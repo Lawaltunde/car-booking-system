@@ -4,7 +4,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class UserService {
-    private final UserDao userDao = new UserDao();
+    private final UserArrayAccessDataService userDao = new UserArrayAccessDataService();
 
     public User[] getAllUsers() {
         User[] all = userDao.getUsers();
