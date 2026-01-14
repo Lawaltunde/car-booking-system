@@ -4,11 +4,15 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class UserService {
-    private final UserDao userDao = new UserArrayAccessDataService();
+    private final UserDao fileUserDao = new UserFileAccessDataService();
+    private final UserDao arrayUserDao = new UserArrayAccessDataService();
 
     public User[] getAllUsers() {
-        User[] all = userDao.getUsers();
-        if (all == null || all.length == 0) {
+        int length = arrayUserDao.getUsers().length + fileUserDao.getUsers().length;
+        User[] all = new User[length];
+        System.arraycopy(arrayUserDao.getUsers(), 0, all, 0, arrayUserDao.getUsers().length);
+        System.arraycopy(fileUserDao.getUsers(), 0, all, arrayUserDao.getUsers().length, fileUserDao.getUsers().length);
+        if (all.length == 0) {
             return new User[0];
         }
 
@@ -63,7 +67,7 @@ public class UserService {
             }
         }
 
-        return userDao.addUser(user);
+        return fileUserDao.addUser(user);
 
     }
 }
