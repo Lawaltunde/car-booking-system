@@ -80,7 +80,7 @@ public class UserArrayAccessDataService implements UserDao {
         users[users.length - 1] = null;
     }
 
-    public static User[] getUsersFromFile(String filePath) {
+    private static User[] getUsersFromFile(String filePath) {
         File file = new File(filePath);
         if (!file.exists()) {
             return new User[0];
