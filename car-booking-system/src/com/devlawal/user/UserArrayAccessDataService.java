@@ -2,16 +2,16 @@ package com.devlawal.user;
 
 import java.util.UUID;
 
-public class UserArrayAccessDataService  implements UserDao{
+public class UserArrayAccessDataService implements UserDao {
     private static User[] users;
 
     static {
         // initialize the array with some static data
         users = new User[10];
-        users[0] = new User("Nakiyah", "Nakiyah@drive.com",23);
-        users[1] = new User("Ademola", "Ademola@drive.com",29);
-        users[2] = new User("Akande", "Akande@drive.com",27);
-        users[3] = new User("Joshua", "Joshua@drive.com",28);
+        users[0] = new User("Nakiyah", "Nakiyah@drive.com", 23);
+        users[1] = new User("Ademola", "Ademola@drive.com", 29);
+        users[2] = new User("Akande", "Akande@drive.com", 27);
+        users[3] = new User("Joshua", "Joshua@drive.com", 28);
     }
 
 
@@ -19,6 +19,7 @@ public class UserArrayAccessDataService  implements UserDao{
     public User[] getUsers() {
         return users;
     }
+
 
     @Override
     public boolean addUser(User user) {
