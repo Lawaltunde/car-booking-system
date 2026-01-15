@@ -4,8 +4,13 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class UserService {
-    private final UserDao fileUserDao = new UserFileAccessDataService();
-    private final UserDao arrayUserDao = new UserArrayAccessDataService();
+    private final UserDao fileUserDao;
+    private final UserDao arrayUserDao;
+
+    public UserService(UserDao fileUserDao, UserDao arrayUserDao) {
+        this.fileUserDao = fileUserDao;
+        this.arrayUserDao = arrayUserDao;
+    }
 
     public User[] getAllUsers() {
         int length = arrayUserDao.getUsers().length + fileUserDao.getUsers().length;

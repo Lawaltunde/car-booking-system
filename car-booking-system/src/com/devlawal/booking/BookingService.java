@@ -9,14 +9,14 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class BookingService {
-    private static final BookingDao bookingDao;
-    private static final CarService carService;
-    private static final UserService userService;
+    private  final BookingDao bookingDao;
+    private  final CarService carService;
+    private  final UserService userService;
 
-    static {
-        bookingDao = new BookingDao();
-        carService = new CarService();
-        userService = new UserService();
+    public BookingService(BookingDao bookingDao, CarService carService, UserService userService) {
+        this.bookingDao = bookingDao;
+        this.carService = carService;
+        this.userService = userService;
     }
 
     // returns all bookings in a database
