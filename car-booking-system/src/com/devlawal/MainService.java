@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 import java.util.Scanner;
 import java.util.UUID;
 
-import static java.lang.System.exit;
 
 public class MainService {
 

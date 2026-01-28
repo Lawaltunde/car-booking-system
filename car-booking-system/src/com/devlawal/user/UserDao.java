@@ -2,9 +2,11 @@ package com.devlawal.user;
 
 import java.util.UUID;
 
-public class UserDao {
-    private static User[] users;
+public interface UserDao {
 
+        User[] getUsers();
+        boolean addUser(User user);
+        void deleteUser(UUID userId);
 
     static {
         users = new User[10];
