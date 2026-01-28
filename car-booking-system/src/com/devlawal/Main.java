@@ -12,9 +12,13 @@ import static com.devlawal.MainService.userInput;
 
 public class Main {
     public static void main(String[] args) {
-        BookingService bookingService = new BookingService();
-        UserService userService = new UserService();
-        CarService carService = new CarService();
+        UserDao fileUserDao = new UserFileAccessDataService();
+        UserDao arrayUserDao = new UserArrayAccessDataService();
+        UserService userService = new UserService(fileUserDao, arrayUserDao);
+        CarDao carDao = new CarDao();
+        CarService carService = new CarService(carDao);
+        BookingDao bookingDao = new BookingDao();
+        BookingService bookingService = new BookingService(bookingDao, carService, userService);
         userInput(userService, bookingService, carService);
     }
 }
