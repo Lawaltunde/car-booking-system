@@ -18,7 +18,6 @@ public class UserFileAccessDataService implements UserDao {
         return users;
     }
 
-
     @Override
     public boolean addUser(User user) {
         if (user == null) {

@@ -4,12 +4,7 @@ import java.util.Objects;
 import java.math.BigDecimal;
 
 public class CarService {
-    private final CarDao carDao;
-
-
-    public CarService(CarDao carDao) {
-        this.carDao =  carDao;
-    }
+    private final CarDao carDao = new CarDao();
 
     // returns all cars in a database
     public Car[] getAllCars() {
