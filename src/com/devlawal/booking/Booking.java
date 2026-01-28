@@ -1,7 +1,7 @@
-package com.devlawal.booking;
+package src.com.devlawal.booking;
 
-import com.devlawal.car.Car;
-import com.devlawal.user.User;
+import src.com.devlawal.car.Car;
+import src.com.devlawal.user.User;
 
 import java.time.LocalDateTime;
 import java.util.Objects;

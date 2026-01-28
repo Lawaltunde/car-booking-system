@@ -1,9 +1,9 @@
-package com.devlawal.booking;
+package src.com.devlawal.booking;
 
-import com.devlawal.car.Car;
-import com.devlawal.car.CarService;
-import com.devlawal.user.User;
-import com.devlawal.user.UserService;
+import src.com.devlawal.car.Car;
+import src.com.devlawal.car.CarService;
+import src.com.devlawal.user.User;
+import src.com.devlawal.user.UserService;
 
 import java.util.Objects;
 import java.util.UUID;

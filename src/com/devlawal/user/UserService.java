@@ -1,4 +1,4 @@
-package com.devlawal.user;
+package src.com.devlawal.user;
 
 import java.util.Objects;
 import java.util.UUID;

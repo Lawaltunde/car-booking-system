@@ -1,11 +1,10 @@
-package com.devlawal;
-
-import com.devlawal.booking.Booking;
-import com.devlawal.booking.BookingService;
-import com.devlawal.car.Car;
-import com.devlawal.car.CarService;
-import com.devlawal.user.User;
-import com.devlawal.user.UserService;
+package src.com.devlawal;
+import src.com.devlawal.booking.Booking;
+import src.com.devlawal.booking.BookingService;
+import src.com.devlawal.car.Car;
+import src.com.devlawal.car.CarService;
+import src.com.devlawal.user.User;
+import src.com.devlawal.user.UserService;
 
 import java.time.LocalDateTime;
 import java.util.Scanner;

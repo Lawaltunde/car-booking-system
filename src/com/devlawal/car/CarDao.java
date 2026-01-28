@@ -1,4 +1,4 @@
-package com.devlawal.car;
+package src.com.devlawal.car;
 
 import java.math.BigDecimal;
 

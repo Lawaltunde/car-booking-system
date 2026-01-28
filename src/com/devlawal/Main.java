@@ -1,14 +1,16 @@
-package com.devlawal;
+package src.com.devlawal;
 
-import com.devlawal.booking.BookingDao;
-import com.devlawal.booking.BookingService;
-import com.devlawal.car.CarDao;
-import com.devlawal.car.CarService;
-import com.devlawal.user.UserArrayAccessDataService;
-import com.devlawal.user.UserDao;
-import com.devlawal.user.UserFileAccessDataService;
-import com.devlawal.user.UserService;
-import static com.devlawal.MainService.userInput;
+
+import src.com.devlawal.booking.BookingDao;
+import src.com.devlawal.booking.BookingService;
+import src.com.devlawal.car.CarDao;
+import src.com.devlawal.car.CarService;
+import src.com.devlawal.user.UserArrayAccessDataService;
+import src.com.devlawal.user.UserDao;
+import src.com.devlawal.user.UserFileAccessDataService;
+import src.com.devlawal.user.UserService;
+
+import static src.com.devlawal.MainService.userInput;
 
 public class Main {
     public static void main(String[] args) {

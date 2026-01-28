@@ -1,4 +1,4 @@
-package com.devlawal.booking;
+package src.com.devlawal.booking;
 
 import java.util.UUID;
 
