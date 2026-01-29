@@ -1,5 +1,7 @@
 package src.com.devlawal.user;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -12,30 +14,13 @@ public class UserService {
         this.arrayUserDao = arrayUserDao;
     }
 
-    public User[] getAllUsers() {
-        int length = arrayUserDao.getUsers().length + fileUserDao.getUsers().length;
-        User[] all = new User[length];
-        System.arraycopy(arrayUserDao.getUsers(), 0, all, 0, arrayUserDao.getUsers().length);
-        System.arraycopy(fileUserDao.getUsers(), 0, all, arrayUserDao.getUsers().length, fileUserDao.getUsers().length);
-        if (all.length == 0) {
-            return new User[0];
-        }
+    public List<User> getAllUsers() {
+        //int length = arrayUserDao.getUsers().length + fileUserDao.getUsers().length;
+        List<User> all = new ArrayList<>();
+        all.addAll(fileUserDao.getUsers());
+        all.addAll(arrayUserDao.getUsers());
 
-        int count = 0;
-        for (User theUser : all) {
-            if (theUser != null) {
-                count++;
-            }
-        }
-
-        User[] available = new User[count];
-        int idx = 0;
-        for (User theUser : all) {
-            if (theUser != null) {
-                available[idx++] = theUser;
-            }
-        }
-        return available;
+        return all;
     }
 
     // returns user corresponding to the given id
@@ -71,8 +56,6 @@ public class UserService {
                 throw new IllegalArgumentException("user with email " + user.getEmail() + " already exists");
             }
         }
-
         return fileUserDao.addUser(user);
-
     }
 }
