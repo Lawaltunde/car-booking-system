@@ -1,5 +1,8 @@
 package src.com.devlawal.car;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import java.math.BigDecimal;
 
@@ -8,53 +11,31 @@ public class CarService {
 
 
     public CarService(CarDao carDao) {
-        this.carDao =  carDao;
+        this.carDao = carDao;
     }
 
-    // returns all cars in a database
-    public Car[] getAllCars() {
-        Car[] daoCars = carDao.getCars();
-
-        int index = 0;
-        for (Car car : daoCars) {
-            if (car != null) {
-                index++;
-            }
-        }
-        Car[] allTheCars = new Car[index];
-        int i = 0;
-        for (Car daoCar : daoCars) {
-            if (daoCar != null) {
-                allTheCars[i++] = daoCar;
-            }
-        }
-        return allTheCars;
+    // returns all cars
+    public List<Car> getAllCars() {
+        return carDao.getCars();
     }
 
-    // returns all electric cars in a database
-    public Car[] getAllElectricCars() {
-        Car[] all = getAllCars();
-        if (all == null || all.length == 0) {
-            return new Car[0];
+    // returns all electric cars
+    public List<Car> getAllElectricCars() {
+        List<Car> all = getAllCars();
+        List<Car> electricCars = new ArrayList<>();
+        if (all.isEmpty()) {
+            return Collections.emptyList();
         }
 
-        int index = 0;
         for (Car aCar : all) {
             if (aCar != null && aCar.isElectric()) {
-                index++;
+                electricCars.add(aCar);
             }
         }
-        if (index > 0) {
-            Car[] electricCars = new Car[index];
-            index = 0;
-            for (Car aCar : all) {
-                if (aCar != null && aCar.isElectric()) {
-                    electricCars[index++] = aCar;
-                }
-            }
-            return electricCars;
+        if (electricCars.isEmpty()) {
+            return Collections.emptyList();
         }
-        return new Car[0];
+        return electricCars;
     }
 
     // returns a car corresponding to given id

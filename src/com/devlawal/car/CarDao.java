@@ -1,20 +1,22 @@
 package src.com.devlawal.car;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CarDao {
-    private static Car[] cars;
+    private static List<Car> cars;
 
     {
-        cars = new Car[5];
-        cars[0] = new Car("1234", Brand.MERCEDES, new BigDecimal(100), false);
-        cars[1] = new Car("5678", Brand.TESLA, new BigDecimal(150), true);
-        cars[2] = new Car("9012", Brand.TOYOTA, new BigDecimal(120), false);
-        cars[3] = new Car("3456", Brand.BUICK, new BigDecimal(110), false);
-        cars[4] = new Car("7890", Brand.FORD, new BigDecimal(130), true);
+        cars = new ArrayList<>();
+        cars.add(new Car("1234", Brand.MERCEDES, new BigDecimal(100), false));
+        cars.add(new Car("5678", Brand.TESLA, new BigDecimal(150), true));
+        cars.add(new Car("9012", Brand.TOYOTA, new BigDecimal(120), false));
+        cars.add(new Car("3456", Brand.BUICK, new BigDecimal(110), false));
+        cars.add(new Car("7890", Brand.FORD, new BigDecimal(130), true));
     }
 
-    public Car[] getCars() {
+    public List<Car> getCars() {
         return cars;
     }
 
@@ -22,19 +24,8 @@ public class CarDao {
         if (car == null) {
             throw new IllegalArgumentException("car can't be null");
         }
-        int index = 0;
-        for (Car existing : cars) {
-            if (existing == null) {
-                cars[index] = car;
-                return true;
-            }
-            index++;
-        }
-        Car[] moreCars = new Car[cars.length + 5];
-        System.arraycopy(cars, 0, moreCars, 0, cars.length);
-        moreCars[cars.length] = car;
-        cars = moreCars;
-        return true;
+        // I will further improve this later to return id instead of boolean
+        return  cars.add(car);
     }
 
     public Car getCarById(String id) {
@@ -50,17 +41,10 @@ public class CarDao {
         if (regNumber == null) {
             throw new IllegalArgumentException("id can't be null");
         }
-        int pos = 0;
         for (Car car : cars) {
             if (car.getRegNumber().equals(regNumber)) {
-                cars[pos] = null;
-                break;
+                cars.remove(car);
             }
-            pos++;
         }
-        for (int i = pos; i < (cars.length - 1); i++) {
-            cars[i] = cars[i + 1];
-        }
-        cars[cars.length - 1] = null;
     }
 }
