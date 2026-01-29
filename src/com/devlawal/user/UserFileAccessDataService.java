@@ -2,9 +2,11 @@ package src.com.devlawal.user;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 public class UserFileAccessDataService implements UserDao {
-    private static User[] users;
+    private static List<User> users;
 
 
     static {
@@ -12,7 +14,7 @@ public class UserFileAccessDataService implements UserDao {
     }
 
     @Override
-    public User[] getUsers() {
+    public List<User> getUsers() {
         return users;
     }
 
@@ -22,64 +24,25 @@ public class UserFileAccessDataService implements UserDao {
         if (user == null) {
             return false;
         }
-
-        if (users == null || users.length == 0) {
-            users = new User[5];
-            users[0] = user;
-            return true;
-        }
-
-        int index = 0;
-        for (User existing : users) {
-            if (existing == null) {
-                users[index] = user;
-                return true;
-            }
-            index++;
-        }
-
-        // No null slot found, an array is full. Expand and append the user.
-        User[] moreUsers = new User[users.length + 5];
-        System.arraycopy(users, 0, moreUsers, 0, users.length);
-        moreUsers[users.length] = user;
-        users = moreUsers;
+        users.add(user);
+        // I will modify this later to probably return id
         return true;
     }
 
-    private static User[] getUsersFromFile(String filePath) {
+    private static List<User> getUsersFromFile(String filePath) {
         File file = new File(filePath);
         if (!file.exists()) {
-            return new User[0];
+            throw new IllegalStateException("User file not found: " + filePath);
         }
-
-        try {
-            // First pass: count non-empty lines
-            int count = 0;
-            try (Scanner scanner = new Scanner(file)) {
-                while (scanner.hasNextLine()) {
-                    String line = scanner.nextLine();
-                    if (line != null && !line.trim().isEmpty()) {
-                        count++;
-                    }
-                }
-            }
-
-            if (count == 0) {
-                return new User[0];
-            }
-
-            User[] usersFromFile = new User[count];
-            int index = 0;
-
-            try (Scanner scanner = new Scanner(file)) {
-                while (scanner.hasNextLine()) {
-                    String line = scanner.nextLine().trim();
-                    if (line.isEmpty()) {
-                        continue;
-                    }
+        try (Scanner scanner = new Scanner(file)) {
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                if (line != null && !line.trim().isEmpty()) {
+                    line = scanner.nextLine().trim();
                     String[] parts = line.split(",");
                     if (parts.length != 3) {
                         // skip lines
+                        // I will modify this later to maybe add random id to a data missing id
                         continue;
                     }
                     String name = parts[0].trim();
@@ -89,23 +52,14 @@ public class UserFileAccessDataService implements UserDao {
                     try {
                         age = Integer.parseInt(ageStr);
                     } catch (NumberFormatException e) {
-                        // skip lines with invalid age
+                        // skip lines with invalid age, I don't want anyone below 18 to drive
                         System.out.println(e.getMessage());
                         continue;
                     }
-
-                    usersFromFile[index++] = new User(name, email, age);
+                    users.add(new User(name, email, age));
                 }
             }
-
-            // if lines are skipped, the index may be less than count. then I need to shrink the array
-            if (index != usersFromFile.length) {
-                User[] newUsers = new User[index];
-                System.arraycopy(usersFromFile, 0, newUsers, 0, index);
-                return newUsers;
-            }
-
-            return usersFromFile;
+            return users;
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
