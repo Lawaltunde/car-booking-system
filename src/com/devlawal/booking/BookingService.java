@@ -5,13 +5,12 @@ import src.com.devlawal.car.CarService;
 import src.com.devlawal.user.User;
 import src.com.devlawal.user.UserService;
 
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 public class BookingService {
-    private  final BookingDao bookingDao;
-    private  final CarService carService;
-    private  final UserService userService;
+    private final BookingDao bookingDao;
+    private final CarService carService;
+    private final UserService userService;
 
     public BookingService(BookingDao bookingDao, CarService carService, UserService userService) {
         this.bookingDao = bookingDao;
@@ -20,10 +19,10 @@ public class BookingService {
     }
 
     // returns all bookings in a database
-    public Booking[] getAllBookings() {
-        Booking[] theBookings = bookingDao.getAllBookings();
-        if (theBookings.length == 0) {
-            return new Booking[0];
+    public List<Booking> getAllBookings() {
+        List<Booking> theBookings = bookingDao.getAllBookings();
+        if (theBookings.isEmpty()) {
+            return Collections.emptyList();
         }
         return theBookings;
     }
@@ -66,7 +65,7 @@ public class BookingService {
     // checks if a user is on the booking list
     public Booking checkBookedUser(UUID id) {
         User aUser = userService.getUserById(id);
-        if (getAllBookings().length == 0) {
+        if (getAllBookings().isEmpty()) {
             throw new IllegalArgumentException("No bookings yet!");
         }
         if (id == null) {
@@ -83,28 +82,28 @@ public class BookingService {
     }
 
     // returns all available cars in a database
-    public Car[] getAllBookedCar() {
-        Car[] allCars = carService.getAllCars();
+    public List<Car> getAllBookedCar() {
+        List<Car> allCars = carService.getAllCars();
         return getBookedCar(allCars);
     }
 
     // returns all available electric cars in database
-    public Car[] getAllBookedElectricCar() {
-        Car[] allElectricCarsCars = carService.getAllElectricCars();
+    public List<Car> getAllBookedElectricCar() {
+        List<Car> allElectricCarsCars = carService.getAllElectricCars();
         return getBookedCar(allElectricCarsCars);
     }
 
-    // use to get all available cars and it used to getAllAvailableCars and getAllAvailableElectricCar
-    private Car[] getBookedCar(Car[] candidateCars) {
-        Booking[] allBookings = getAllBookings();
-        if (candidateCars == null || candidateCars.length == 0) {
-            return new Car[0];
+    // use to get all available cars and it used by getAllAvailableCars and getAllAvailableElectricCar methods
+    private List<Car> getBookedCar(List<Car> candidateCars) {
+        List<Booking> allBookings = getAllBookings();
+        if (candidateCars.isEmpty()) {
+            return Collections.emptyList();
         }
-        if (allBookings.length == 0) {
+        if (allBookings.isEmpty()) {
             return candidateCars;
         }
+        List<Car> cars = new ArrayList<>();
 
-        int index = 0;
         for (Car car : candidateCars) {
             boolean booked = false;
             for (Booking booking : allBookings) {
@@ -112,35 +111,11 @@ public class BookingService {
                     continue;
                 }
                 if (car.getRegNumber().equals(booking.getCar().getRegNumber()) && booking.isBooked()) {
-                    booked = true;
                     break;
                 }
             }
-            if (!booked) {
-                index++;
-            }
+            cars.add(car);
         }
-        Car[] car = new Car[index];
-        int availableIndex = 0;
-        for (Car aCar : candidateCars) {
-            if (aCar == null) {
-                continue;
-            }
-            boolean booked = false;
-            for (Booking booking : allBookings) {
-                if (booking == null || booking.getCar() == null || booking.getCar().getRegNumber() == null) {
-                    continue;
-                }
-                if (aCar.getRegNumber().equals(booking.getCar().getRegNumber()) && booking.isBooked()) {
-                    booked = true;
-                    break;
-                }
-            }
-            if (!booked && availableIndex < car.length) {
-                car[availableIndex++] = aCar;
-            }
-        }
-        return car;
+        return cars;
     }
-
 }
