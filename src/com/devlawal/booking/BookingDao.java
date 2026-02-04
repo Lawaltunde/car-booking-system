@@ -1,6 +1,7 @@
 package src.com.devlawal.booking;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,11 +28,6 @@ public class BookingDao {
         if (bookingId == null) {
             throw new IllegalArgumentException("id can't be null");
         }
-        for (Booking booking : bookings) {
-            if (booking != null && booking.getBookingId() != null && booking.getBookingId().equals(bookingId)) {
-                bookings.remove(booking);
-                break;
-            }
-        }
+        bookings.removeIf(booking -> bookingId.equals(booking.getBookingId()));
     }
 }
