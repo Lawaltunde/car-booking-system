@@ -29,22 +29,13 @@ public class CarDao {
     }
 
     public Car getCarById(String id) {
-        for (Car car : cars) {
-            if (car.getRegNumber().equals(id)) {
-                return car;
-            }
-        }
-        return null;
+        return cars.stream().filter(car -> car.getRegNumber().equals(id)).findFirst().orElse(null);
     }
 
     public void deleteCar(String regNumber) {
         if (regNumber == null) {
             throw new IllegalArgumentException("id can't be null");
         }
-        for (Car car : cars) {
-            if (car.getRegNumber().equals(regNumber)) {
-                cars.remove(car);
-            }
-        }
+        cars.removeIf(car -> car.getRegNumber().equals(regNumber));
     }
 }

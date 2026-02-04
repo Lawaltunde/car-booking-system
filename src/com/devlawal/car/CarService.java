@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.math.BigDecimal;
+import java.util.stream.Collectors;
 
 public class CarService {
     private final CarDao carDao;
@@ -22,16 +23,7 @@ public class CarService {
     // returns all electric cars
     public List<Car> getAllElectricCars() {
         List<Car> all = getAllCars();
-        List<Car> electricCars = new ArrayList<>();
-        if (all.isEmpty()) {
-            return Collections.emptyList();
-        }
-
-        for (Car aCar : all) {
-            if (aCar != null && aCar.isElectric()) {
-                electricCars.add(aCar);
-            }
-        }
+        List<Car> electricCars = all.stream().filter(car -> car != null && car.isElectric()).toList();
         if (electricCars.isEmpty()) {
             return Collections.emptyList();
         }
