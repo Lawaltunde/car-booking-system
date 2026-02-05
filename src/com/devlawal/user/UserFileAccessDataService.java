@@ -3,6 +3,7 @@ package src.com.devlawal.user;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 public class UserFileAccessDataService implements UserDao {
@@ -48,6 +49,7 @@ public class UserFileAccessDataService implements UserDao {
                         // I will modify this later to maybe add random id to a data missing id
                         continue;
                     }
+
                     try {
                         String name = parts[0].trim();
                         String email = parts[1].trim();

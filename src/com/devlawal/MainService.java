@@ -1,4 +1,5 @@
 package src.com.devlawal;
+
 import src.com.devlawal.booking.Booking;
 import src.com.devlawal.booking.BookingService;
 import src.com.devlawal.car.Car;
@@ -7,6 +8,7 @@ import src.com.devlawal.user.User;
 import src.com.devlawal.user.UserService;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -65,13 +67,11 @@ public class MainService {
                     }
                     break;
                 case 2:
-                    User[] user = userService.getAllUsers();
-                    if (user.length == 0) {
+                    List<User> theUsers = userService.getAllUsers();
+                    if (theUsers.isEmpty()) {
                         System.out.println("No users yet, sorry!");
                     }
-                    for (User u : user) {
-                        System.out.println(u);
-                    }
+                    theUsers.forEach(System.out::println);
                     System.out.println("Select the user's id you will like to checked");
                     try {
                         Scanner scanner = new Scanner(System.in);
@@ -93,37 +93,29 @@ public class MainService {
                     }
                     break;
                 case 3:
-                    Booking[] bookings = bookingService.getAllBookings();
-                    if (bookings.length == 0) {
+                    List<Booking> bookings = bookingService.getAllBookings();
+                    if (bookings.isEmpty()) {
                         System.out.println("No bookings yet, sorry!");
                     }
-                    for (Booking booking : bookings) {
-                        System.out.println(booking);
-                    }
+                    bookings.forEach(System.out::println);
                     break;
                 case 4:
-                    Car[] allAvailableCars = bookingService.getAllBookedCar();
-                    if (allAvailableCars.length == 0) {
+                    List<Car> allAvailableCars = bookingService.getAllBookedCar();
+                    if (allAvailableCars.isEmpty()) {
                         System.out.println("No cars available, sorry!");
                     }
-                    for (Car car : allAvailableCars) {
-                        System.out.println(car);
-                    }
+                    allAvailableCars.forEach(System.out::println);
                     break;
                 case 5:
-                    Car[] allAvailableElectricCar = bookingService.getAllBookedElectricCar();
-                    if (allAvailableElectricCar.length == 0) {
+                    List<Car> allAvailableElectricCar = bookingService.getAllBookedElectricCar();
+                    if (allAvailableElectricCar.isEmpty()) {
                         System.out.println("No electric cars available, sorry!");
                     }
-                    for (Car electricCar : allAvailableElectricCar) {
-                        System.out.println(electricCar);
-                    }
+                    allAvailableElectricCar.forEach(System.out::println);
                     break;
                 case 6:
-                    User[] users = userService.getAllUsers();
-                    for (User user1 : users) {
-                        System.out.println(user1);
-                    }
+                    List<User> users = userService.getAllUsers();
+                    users.forEach(System.out::println);
                     break;
                 case 7:
                     System.out.println("Exiting... Goodbye!");
