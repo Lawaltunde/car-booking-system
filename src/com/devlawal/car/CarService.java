@@ -23,7 +23,7 @@ public class CarService {
     // returns all electric cars
     public List<Car> getAllElectricCars() {
         List<Car> all = getAllCars();
-        List<Car> electricCars = all.stream().filter(car -> car != null && car.isElectric()).toList();
+        return all.stream().filter(car -> car != null && car.isElectric()).toList();
         if (electricCars.isEmpty()) {
             return Collections.emptyList();
         }
