@@ -22,8 +22,7 @@ public class CarService {
 
     // returns all electric cars
     public List<Car> getAllElectricCars() {
-        List<Car> all = getAllCars();
-        return all.stream().filter(car -> car != null && car.isElectric()).toList();
+        return getAllCars().stream().filter(car -> car != null && car.isElectric()).toList();
     }
 
     // returns a car corresponding to given id
