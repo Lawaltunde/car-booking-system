@@ -21,7 +21,11 @@ public class UserFakerDataAccessService implements UserDao {
 
     @Override
     public boolean addUser(User user) {
-        return false;
+        if (user == null) {
+            return false;
+        }
+        users.add(user);
+        return true;
     }
 
     static List<User> userFromJaveFakerDependency() {
