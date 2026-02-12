@@ -25,7 +25,7 @@ public class CarDao {
             throw new IllegalArgumentException("car can't be null");
         }
         // I will further improve this later to return id instead of boolean
-        return  cars.add(car);
+        return cars.add(car);
     }
 
     public Car getCarById(String id) {

@@ -1,8 +1,6 @@
 package com.devlawal.booking;
 
 
-
-
 import com.devlawal.car.Car;
 import com.devlawal.user.User;
 
