@@ -8,16 +8,19 @@ import java.util.UUID;
 public class UserService {
     private final UserDao fileUserDao;
     private final UserDao arrayUserDao;
+    private final UserDao fakeUserDao;
 
-    public UserService(UserDao fileUserDao, UserDao arrayUserDao) {
+    public UserService(UserDao fileUserDao, UserDao arrayUserDao, UserDao fakeUserDao) {
         this.fileUserDao = fileUserDao;
         this.arrayUserDao = arrayUserDao;
+        this.fakeUserDao = fakeUserDao;
     }
 
     public List<User> getAllUsers() {
         List<User> all = new ArrayList<>();
         all.addAll(fileUserDao.getUsers());
         all.addAll(arrayUserDao.getUsers());
+        all.addAll(fakeUserDao.getUsers());
         return all;
     }
 

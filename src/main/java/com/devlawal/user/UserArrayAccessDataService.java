@@ -12,7 +12,9 @@ public class UserArrayAccessDataService implements UserDao {
         users.add(new User("Ademola", "Ademola@drive.com", 29));
         users.add(new User("Akande", "Akande@drive.com", 27));
         users.add(new User("Joshua", "Joshua@drive.com", 28));
-    };
+    }
+
+    ;
 
 
     @Override
