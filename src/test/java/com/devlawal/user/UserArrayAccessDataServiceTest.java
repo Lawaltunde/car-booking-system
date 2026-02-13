@@ -3,6 +3,8 @@ package com.devlawal.user;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 class UserArrayAccessDataServiceTest {
@@ -38,6 +40,15 @@ class UserArrayAccessDataServiceTest {
     void cannotReturnAlUsers() {
         int actual = underTest.getUsers().size();
         assertThat(actual).isNotEqualTo(2);
+    }
+
+    @Test
+    void canReturnExpectedUserValues() {
+        List<User> users = underTest.getUsers();
+        assertThat(users.get(0).getEmail()).isEqualTo("Ademola@drive.com");
+        assertThat(users.get(0).getAge()).isEqualTo(29);
+        assertThat(users.get(0).getName()).isEqualTo("Ademola");
+
     }
 
 }
