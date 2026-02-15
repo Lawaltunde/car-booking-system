@@ -15,7 +15,6 @@ public interface UserDao {
         }
 
         if (users == null || users.isEmpty()) {
-            // nothing to delete
             return;
         }
         users.removeIf(user -> user.isAvailable() && user.getId().equals(userId));

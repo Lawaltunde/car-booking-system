@@ -7,11 +7,11 @@ public class User {
     private String name;
     private UUID id;
     private String email;
-    private Integer age;
+    private int age;
     private boolean isAvailable;
 
 
-    public User(String name, String email, Integer age) {
+    public User(String name, String email, int age) {
         this.name = name;
         this.email = email;
         this.age = age;
@@ -34,7 +34,7 @@ public class User {
         return this.email;
     }
 
-    public Integer getAge() {
+    public int getAge() {
         return this.age;
     }
 

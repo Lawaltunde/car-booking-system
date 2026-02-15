@@ -7,18 +7,19 @@ import java.util.List;
 import java.util.Scanner;
 
 public class UserFileAccessDataService implements UserDao {
-    private static List<User> users;
+    private final List<User> users;
+    private final String filePath;
 
-
-    static {
-        users = getUsersFromFile();
+    public UserFileAccessDataService() {
+        this.filePath = getClass().getClassLoader().getResource("users.csv").getPath();
+        this.users = new ArrayList<>();
+        loadUsersFromFile();
     }
 
     @Override
     public List<User> getUsers() {
-        return users;
+        return new ArrayList<>(users); // Return defensive copy
     }
-
 
     @Override
     public boolean addUser(User user) {
@@ -26,45 +27,43 @@ public class UserFileAccessDataService implements UserDao {
             return false;
         }
         users.add(user);
-        // will be later modified to probably return id
         return true;
     }
 
-    private static List<User> getUsersFromFile() {
-        List<User> localUsers = new ArrayList<>();
-        File file = new File(UserFileAccessDataService.class.getClassLoader().getResource("users.csv").getPath());
+    private void loadUsersFromFile() {
+        File file = new File(filePath);
         if (!file.exists()) {
-            throw new IllegalStateException("file not found: ");
+            throw new IllegalStateException("File not found: " + filePath);
         }
-        List<User> users = new ArrayList<>();
+
         try (Scanner scanner = new Scanner(file)) {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
-                if (line.isEmpty()) {
-                    continue;
-                }
-                String[] parts = line.split(",");
-                if (parts.length != 3) {
-                    // skip lines
-                    // I will modify this later to maybe add random id to a data missing id
-                    continue;
-                }
-
-                try {
-                    String name = parts[0].trim();
-                    String email = parts[1].trim();
-                    String ageStr = parts[2].trim();
-                    int age = Integer.parseInt(ageStr);
-
-                    localUsers.add(new User(name, email, age));
-                } catch (NumberFormatException e) {
-                    System.out.println(e.getMessage());
-                    continue;
-                }
+                parseAndAddUser(line);
             }
-            return localUsers;
         } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException("Failed to load users from file: " + filePath, e);
+        }
+    }
+
+    private void parseAndAddUser(String line) {
+        if (line == null || line.isBlank()) {
+            return;
+        }
+
+        String[] parts = line.split(",");
+        if (parts.length != 3) {
+            // Skip invalid lines
+            return;
+        }
+
+        try {
+            String name = parts[0].trim();
+            String email = parts[1].trim();
+            int age = Integer.parseInt(parts[2].trim());
+            users.add(new User(name, email, age));
+        } catch (NumberFormatException e) {
+            System.err.println("Invalid age format in line: " + line);
         }
     }
 }

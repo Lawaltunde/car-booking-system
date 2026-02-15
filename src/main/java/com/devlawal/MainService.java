@@ -1,10 +1,12 @@
 package com.devlawal;
 
-
 import com.devlawal.booking.Booking;
 import com.devlawal.booking.BookingService;
 import com.devlawal.car.Car;
 import com.devlawal.car.CarService;
+import com.devlawal.exception.BookingException;
+import com.devlawal.exception.ResourceNotFoundException;
+import com.devlawal.exception.ValidationException;
 import com.devlawal.user.User;
 import com.devlawal.user.UserService;
 
@@ -13,131 +15,193 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
 
-
 public class MainService {
-
-    public static int inputErrorHandler() {
-        int opt = 0;
-        printMenu();
-        try {
-            Scanner scanner = new Scanner(System.in);
-            opt = scanner.nextInt();
-        } catch (IllegalArgumentException e) {
-            System.out.println("Invalid input. Please enter a number between 1 and 7.");
-        } catch (Exception e) {
-            e.getStackTrace();
-        }
-        return opt;
-    }
+    private static final Scanner scanner = new Scanner(System.in);
 
     public static void userInput(UserService userService, BookingService bookingService, CarService carService) {
-        boolean currentStatus = true;
-        while (currentStatus) {
-            int opt = inputErrorHandler();
-            switch (opt) {
-                case 1:
-                    for (Car car : carService.getAllCars()) {
-                        System.out.println(car);
-                    }
-                    System.out.println("Select the car's id you will like to book");
-                    try {
-                        Scanner scanner = new Scanner(System.in);
-                        String id = scanner.nextLine().trim();
-                        Car car = null;
-                        for (Car vehicle : carService.getAllCars()) {
-                            if (vehicle != null && vehicle.getRegNumber().equals(id)) {
-                                car = vehicle;
-                                break;
-                            }
-                        }
-                        for (User user : userService.getAllUsers()) {
-                            System.out.println(user);
-                        }
-                        System.out.println("Select the user's id you will like use");
-                        Scanner scannerUser = new Scanner(System.in);
-                        String userId = scanner.nextLine().trim();
-                        UUID theUserId = UUID.fromString(userId);
-                        User user = userService.getUserById(theUserId);
-                        LocalDateTime bookingTime = LocalDateTime.now();
-                        Booking booking = new Booking(bookingTime, car, user);
-                        bookingService.bookCar(booking);
-                        System.out.println("Booking was successful for " + booking.getUser() +
-                                " for " + booking.getCar() + " on " + booking.getBookingTime() + "with booking id: " + booking.getBookingId() + "!");
-                    } catch (Exception e) {
-                        System.out.println("Booking was unsuccessful " + e);
-                    }
-                    break;
-                case 2:
-                    List<User> theUsers = userService.getAllUsers();
-                    if (theUsers.isEmpty()) {
-                        System.out.println("No users yet, sorry!");
-                    }
-                    theUsers.forEach(System.out::println);
-                    System.out.println("Select the user's id you will like to checked");
-                    try {
-                        Scanner scanner = new Scanner(System.in);
-                        String id = scanner.nextLine().trim();
-                        UUID theId = UUID.fromString(id);
-                        User thatUser = userService.getUserById(theId);
-                        if (thatUser == null) {
-                            System.out.println("User with id " + id + " not found in database");
-                            break;
-                        }
-                        Booking booking = bookingService.checkBookedUser(theId);
-                        if (booking == null) {
-                            System.out.println(thatUser + " has no car booked yet");
-                        } else {
-                            System.out.println(thatUser + " has been booked for: " + booking.getCar() + " on " + booking.getBookingTime());
-                        }
-                    } catch (Exception e) {
-                        System.out.println(e.getMessage());
-                    }
-                    break;
-                case 3:
-                    List<Booking> bookings = bookingService.getAllBookings();
-                    if (bookings.isEmpty()) {
-                        System.out.println("No bookings yet, sorry!");
-                    }
-                    bookings.forEach(System.out::println);
-                    break;
-                case 4:
-                    List<Car> allAvailableCars = bookingService.getAllBookedCar();
-                    if (allAvailableCars.isEmpty()) {
-                        System.out.println("No cars available, sorry!");
-                    }
-                    allAvailableCars.forEach(System.out::println);
-                    break;
-                case 5:
-                    List<Car> allAvailableElectricCar = bookingService.getAllBookedElectricCar();
-                    if (allAvailableElectricCar.isEmpty()) {
-                        System.out.println("No electric cars available, sorry!");
-                    }
-                    allAvailableElectricCar.forEach(System.out::println);
-                    break;
-                case 6:
-                    List<User> users = userService.getAllUsers();
-                    users.forEach(System.out::println);
-                    break;
-                case 7:
+        boolean running = true;
+        while (running) {
+            printMenu();
+            int option = getMenuOption();
+            
+            switch (option) {
+                case 1 -> handleBookCar(carService, userService, bookingService);
+                case 2 -> handleViewUserBooking(userService, bookingService);
+                case 3 -> handleViewAllBookings(bookingService);
+                case 4 -> handleViewAvailableCars(bookingService);
+                case 5 -> handleViewAvailableElectricCars(bookingService);
+                case 6 -> handleViewAllUsers(userService);
+                case 7 -> {
                     System.out.println("Exiting... Goodbye!");
-                    currentStatus = false;
-                    break;
-                default:
-                    System.out.println("Invalid input. Please enter a number between 1 and 7.");
+                    running = false;
+                }
+                default -> System.out.println("Invalid input. Please enter a number between 1 and 7.");
             }
+        }
+        scanner.close();
+    }
+
+    private static int getMenuOption() {
+        try {
+            return scanner.nextInt();
+        } catch (Exception e) {
+            System.out.println("Invalid input. Please enter a number between 1 and 7.");
+            scanner.nextLine(); // Clear the invalid input
+            return -1;
         }
     }
 
-    public static void printMenu() {
+    private static void handleBookCar(CarService carService, UserService userService, BookingService bookingService) {
+        try {
+            // Display all cars
+            System.out.println("\n=== Available Cars ===");
+            carService.getAllCars().forEach(System.out::println);
+            
+            // Select car
+            System.out.println("\nEnter the car's registration number:");
+            scanner.nextLine(); // Consume newline
+            String carId = scanner.nextLine().trim();
+            
+            Car selectedCar = carService.getAllCars().stream()
+                    .filter(car -> car.getRegNumber().equals(carId))
+                    .findFirst()
+                    .orElse(null);
+            
+            if (selectedCar == null) {
+                System.out.println("❌ Car with registration " + carId + " not found!");
+                return;
+            }
+            
+            // Display all users
+            System.out.println("\n=== Available Users ===");
+            userService.getAllUsers().forEach(System.out::println);
+            
+            // Select user
+            System.out.println("\nEnter the user's id:");
+            String userId = scanner.nextLine().trim();
+            UUID userUuid = UUID.fromString(userId);
+            User selectedUser = userService.getUserById(userUuid);
+            
+            // Create booking
+            LocalDateTime bookingTime = LocalDateTime.now();
+            Booking booking = new Booking(bookingTime, selectedCar, selectedUser);
+            bookingService.bookCar(booking);
+            
+            System.out.println("\n✅ Booking successful!");
+            System.out.println("User: " + selectedUser.getName());
+            System.out.println("Car: " + selectedCar.getBrand() + " (" + selectedCar.getRegNumber() + ")");
+            System.out.println("Time: " + bookingTime);
+            System.out.println("Booking ID: " + booking.getBookingId());
+            
+        } catch (ResourceNotFoundException e) {
+            System.out.println("❌ " + e.getMessage());
+        } catch (BookingException e) {
+            System.out.println("❌ Booking failed: " + e.getMessage());
+        } catch (ValidationException e) {
+            System.out.println("❌ Invalid input: " + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            System.out.println("❌ Invalid UUID format. Please enter a valid user ID.");
+        } catch (Exception e) {
+            System.out.println("❌ An unexpected error occurred: " + e.getMessage());
+            System.err.println("Error details: " + e.getClass().getSimpleName());
+        }
+    }
+
+    private static void handleViewUserBooking(UserService userService, BookingService bookingService) {
+        try {
+            List<User> users = userService.getAllUsers();
+            if (users.isEmpty()) {
+                System.out.println("No users available!");
+                return;
+            }
+            
+            System.out.println("\n=== All Users ===");
+            users.forEach(System.out::println);
+            
+            System.out.println("\nEnter the user's id to check:");
+            scanner.nextLine(); // Consume newline
+            String userId = scanner.nextLine().trim();
+            UUID userUuid = UUID.fromString(userId);
+            
+            User user = userService.getUserById(userUuid);
+            Booking booking = bookingService.checkBookedUser(userUuid);
+            
+            if (booking == null) {
+                System.out.println("\n" + user.getName() + " has no car booked yet.");
+            } else {
+                System.out.println("\n📅 Booking Details:");
+                System.out.println("User: " + user.getName());
+                System.out.println("Car: " + booking.getCar().getBrand() + " (" + booking.getCar().getRegNumber() + ")");
+                System.out.println("Booked on: " + booking.getBookingTime());
+            }
+        } catch (ResourceNotFoundException e) {
+            System.out.println("❌ " + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            System.out.println("❌ Invalid UUID format. Please enter a valid user ID.");
+        } catch (Exception e) {
+            System.out.println("❌ An unexpected error occurred: " + e.getMessage());
+        }
+    }
+
+    private static void handleViewAllBookings(BookingService bookingService) {
+        List<Booking> bookings = bookingService.getAllBookings();
+        if (bookings.isEmpty()) {
+            System.out.println("\nNo bookings yet!");
+            return;
+        }
+        
+        System.out.println("\n=== All Bookings ===");
+        bookings.forEach(System.out::println);
+    }
+
+    private static void handleViewAvailableCars(BookingService bookingService) {
+        List<Car> availableCars = bookingService.getAllAvailableCars();
+        if (availableCars.isEmpty()) {
+            System.out.println("\nNo cars available!");
+            return;
+        }
+        
+        System.out.println("\n=== Available Cars ===");
+        availableCars.forEach(System.out::println);
+    }
+
+    private static void handleViewAvailableElectricCars(BookingService bookingService) {
+        List<Car> availableElectricCars = bookingService.getAllAvailableElectricCars();
+        if (availableElectricCars.isEmpty()) {
+            System.out.println("\nNo electric cars available!");
+            return;
+        }
+        
+        System.out.println("\n=== Available Electric Cars ===");
+        availableElectricCars.forEach(System.out::println);
+    }
+
+    private static void handleViewAllUsers(UserService userService) {
+        List<User> users = userService.getAllUsers();
+        if (users.isEmpty()) {
+            System.out.println("\nNo users available!");
+            return;
+        }
+        
+        System.out.println("\n=== All Users ===");
+        users.forEach(System.out::println);
+    }
+
+    private static void printMenu() {
         String menu = """
-                1️⃣ - Book Car
-                2️⃣ - View All User Booked Cars
-                3️⃣ - View All Bookings
-                4️⃣ - View Available Cars
-                5️⃣ - View Available Electric Cars
-                6️⃣ - View all users
-                7️⃣ - Exit
-                """;
-        System.out.println(menu);
+                
+                ╔════════════════════════════════════════╗
+                ║      CAR BOOKING SYSTEM MENU          ║
+                ╚════════════════════════════════════════╝
+                1️⃣  - Book Car
+                2️⃣  - View User's Booked Car
+                3️⃣  - View All Bookings
+                4️⃣  - View Available Cars
+                5️⃣  - View Available Electric Cars
+                6️⃣  - View All Users
+                7️⃣  - Exit
+                
+                Enter your choice:""";
+        System.out.print(menu + " ");
     }
 }

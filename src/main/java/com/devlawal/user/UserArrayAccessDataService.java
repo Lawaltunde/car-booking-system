@@ -4,24 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserArrayAccessDataService implements UserDao {
-    private static List<User> users;
+    private final List<User> users;
 
-    static {
-        // initialize the array with some static data
-        users = new ArrayList<>();
+    public UserArrayAccessDataService() {
+        this.users = new ArrayList<>();
+        initializeUsers();
+    }
+
+    private void initializeUsers() {
         users.add(new User("Ademola", "Ademola@drive.com", 29));
         users.add(new User("Akande", "Akande@drive.com", 27));
         users.add(new User("Joshua", "Joshua@drive.com", 28));
     }
 
-    ;
-
-
     @Override
     public List<User> getUsers() {
-        return users;
+        return new ArrayList<>(users); // Return defensive copy
     }
-
 
     @Override
     public boolean addUser(User user) {

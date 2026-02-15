@@ -5,24 +5,23 @@ import java.util.List;
 import java.util.UUID;
 
 public class BookingDao {
-    private static List<Booking> bookings;
+    private final List<Booking> bookings;
 
-    static {
-        bookings = new ArrayList<>();
+    public BookingDao() {
+        this.bookings = new ArrayList<>();
     }
 
-    // adds a booking to database
+    // Adds a booking to database
     public boolean addBooking(Booking booking) {
         return bookings.add(booking);
     }
 
-    // returns all the available bookings
+    // Returns all the available bookings
     public List<Booking> getAllBookings() {
-        return bookings;
-
+        return new ArrayList<>(bookings); // Return defensive copy
     }
 
-    // deletes a booking
+    // Deletes a booking
     public void deleteBooking(UUID bookingId) {
         if (bookingId == null) {
             throw new IllegalArgumentException("id can't be null");

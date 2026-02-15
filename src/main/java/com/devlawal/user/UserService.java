@@ -1,57 +1,66 @@
 package com.devlawal.user;
 
-import java.util.ArrayList;
+import com.devlawal.exception.ResourceNotFoundException;
+import com.devlawal.exception.ValidationException;
+import com.devlawal.util.ValidationUtil;
+
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 public class UserService {
-    private final UserDao fileUserDao;
-    private final UserDao arrayUserDao;
-    private final UserDao fakeUserDao;
+    private final UserDao userDao;
 
-    public UserService(UserDao fileUserDao, UserDao arrayUserDao, UserDao fakeUserDao) {
-        this.fileUserDao = fileUserDao;
-        this.arrayUserDao = arrayUserDao;
-        this.fakeUserDao = fakeUserDao;
+    public UserService(UserDao userDao) {
+        this.userDao = userDao;
     }
 
     public List<User> getAllUsers() {
-        List<User> all = new ArrayList<>();
-        all.addAll(fileUserDao.getUsers());
-        all.addAll(arrayUserDao.getUsers());
-        all.addAll(fakeUserDao.getUsers());
-        return all;
+        return userDao.getUsers();
     }
 
-    // returns user corresponding to the given id
     public User getUserById(UUID id) {
         if (id == null) {
-            return null;
+            throw new ValidationException("User ID cannot be null");
         }
-        return getAllUsers().stream().filter(user -> user.getId() != null && user.getId().equals(id)).findFirst().orElse(null);
+        return getAllUsers().stream()
+                .filter(user -> user.getId() != null && user.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException("User", id.toString()));
     }
 
-    // adds user to database
     public boolean addUser(User user) {
-        // user can't be null
-        Objects.requireNonNull(user, "user can't be null");
-        Objects.requireNonNull(user.getAge(), "user age can't be null");
-        if (user.getAge() < 18) {
-            throw new IllegalArgumentException("user must be at least 18 years old");
+        // Validate user object
+        if (user == null) {
+            throw new ValidationException("User cannot be null");
         }
-        Objects.requireNonNull(user.getName(), "user name can't be null");
-        Objects.requireNonNull(user.getEmail(), "user email can't be null");
-        Objects.requireNonNull(user.getId(), "user id can't be null");
+        
+        ValidationUtil.validateNotEmpty(user.getName(), "User name");
+        ValidationUtil.validateNotEmpty(user.getEmail(), "User email");
+        
+        if (user.getId() == null) {
+            throw new ValidationException("User ID cannot be null");
+        }
 
-        for (User aUser : getAllUsers()) {
-            if (aUser != null && aUser.getId() != null && aUser.getId().equals(user.getId())) {
-                throw new IllegalArgumentException("user with id " + user.getId() + " already exists");
-            }
-            if (aUser != null && aUser.getEmail() != null && aUser.getEmail().equals(user.getEmail())) {
-                throw new IllegalArgumentException("user with email " + user.getEmail() + " already exists");
-            }
+        ValidationUtil.validateEmail(user.getEmail());
+        
+        ValidationUtil.validateAge(user.getAge());
+
+        boolean idExists = getAllUsers().stream()
+                .anyMatch(existingUser -> existingUser.getId() != null 
+                        && existingUser.getId().equals(user.getId()));
+        
+        if (idExists) {
+            throw new ValidationException("User with ID " + user.getId() + " already exists");
         }
-        return fileUserDao.addUser(user);
+
+        boolean emailExists = getAllUsers().stream()
+                .anyMatch(existingUser -> existingUser.getEmail() != null 
+                        && existingUser.getEmail().equalsIgnoreCase(user.getEmail().trim()));
+        
+        if (emailExists) {
+            throw new ValidationException("User with email " + user.getEmail() + " already exists");
+        }
+
+        return userDao.addUser(user);
     }
 }

@@ -1,58 +1,66 @@
 package com.devlawal.car;
 
-import java.util.List;
-import java.util.Objects;
+import com.devlawal.exception.ResourceNotFoundException;
+import com.devlawal.exception.ValidationException;
+import com.devlawal.util.ValidationUtil;
+
 import java.math.BigDecimal;
+import java.util.List;
 
 public class CarService {
     private final CarDao carDao;
-
 
     public CarService(CarDao carDao) {
         this.carDao = carDao;
     }
 
-    // returns all cars
     public List<Car> getAllCars() {
         return carDao.getCars();
     }
 
-    // returns all electric cars
     public List<Car> getAllElectricCars() {
-        return getAllCars().stream().filter(car -> car != null && car.isElectric()).toList();
+        return getAllCars().stream()
+                .filter(car -> car != null && car.isElectric())
+                .toList();
     }
 
-    // returns a car corresponding to given id
     public Car getCarById(String id) {
-        if (id == null || id.isBlank()) {
-            throw new IllegalArgumentException("id can't be null or blank");
-        }
+        ValidationUtil.validateNotEmpty(id, "Car registration number");
+        
         Car theCar = carDao.getCarById(id);
         if (theCar == null) {
-            throw new IllegalArgumentException("car with id " + id + " not found");
+            throw new ResourceNotFoundException("Car", id);
         }
         return theCar;
     }
 
-    // adds a car to a database
     public boolean addCar(Car car) {
         if (car == null) {
-            throw new IllegalArgumentException("car can't be null");
+            throw new ValidationException("Car cannot be null");
         }
 
-        // validate required fields early to avoid NPEs during duplicate checks
-        Objects.requireNonNull(car.getRegNumber(), "car id can't be null");
-        Objects.requireNonNull(car.getBrand(), "car brand can't be null");
-        Objects.requireNonNull(car.getPricePerDay(), "car price can't be null");
-        if (car.getPricePerDay().compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException("car price can't be negative");
+        ValidationUtil.validateNotEmpty(car.getRegNumber(), "Car registration number");
+        
+        if (car.getBrand() == null) {
+            throw new ValidationException("Car brand cannot be null");
+        }
+        
+        if (car.getPricePerDay() == null) {
+            throw new ValidationException("Car price cannot be null");
+        }
+        
+        if (car.getPricePerDay().compareTo(BigDecimal.ZERO) <= 0) {
+            throw new ValidationException("Car price must be greater than zero");
         }
 
-        for (Car aCar : getAllCars()) {
-            if (aCar != null && aCar.getRegNumber() != null && aCar.getRegNumber().equals(car.getRegNumber())) {
-                throw new IllegalArgumentException("car with id " + car.getRegNumber() + " already exists");
-            }
+        boolean regNumberExists = getAllCars().stream()
+                .anyMatch(existingCar -> existingCar.getRegNumber() != null 
+                        && existingCar.getRegNumber().equals(car.getRegNumber()));
+        
+        if (regNumberExists) {
+            throw new ValidationException("Car with registration number " + car.getRegNumber() + " already exists");
         }
+
         return carDao.addCar(car);
     }
 }
