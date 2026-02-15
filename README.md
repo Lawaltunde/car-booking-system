@@ -102,8 +102,3 @@ Enter the number for a command and follow the prompts.
 
 ---
 
-## License
-
-This project is provided for learning purposes. For now it is not intended for production use, maybe in the future it will be licensed under MIT or similar.
-
----
