@@ -7,9 +7,13 @@
 /Users/lawaltunde/code/car-booking-system/src/main/java/com/devlawal/car/Car.java
 /Users/lawaltunde/code/car-booking-system/src/main/java/com/devlawal/car/CarDao.java
 /Users/lawaltunde/code/car-booking-system/src/main/java/com/devlawal/car/CarService.java
+/Users/lawaltunde/code/car-booking-system/src/main/java/com/devlawal/exception/BookingException.java
+/Users/lawaltunde/code/car-booking-system/src/main/java/com/devlawal/exception/ResourceNotFoundException.java
+/Users/lawaltunde/code/car-booking-system/src/main/java/com/devlawal/exception/ValidationException.java
 /Users/lawaltunde/code/car-booking-system/src/main/java/com/devlawal/user/User.java
 /Users/lawaltunde/code/car-booking-system/src/main/java/com/devlawal/user/UserArrayAccessDataService.java
 /Users/lawaltunde/code/car-booking-system/src/main/java/com/devlawal/user/UserDao.java
 /Users/lawaltunde/code/car-booking-system/src/main/java/com/devlawal/user/UserFakerDataAccessService.java
 /Users/lawaltunde/code/car-booking-system/src/main/java/com/devlawal/user/UserFileAccessDataService.java
 /Users/lawaltunde/code/car-booking-system/src/main/java/com/devlawal/user/UserService.java
+/Users/lawaltunde/code/car-booking-system/src/main/java/com/devlawal/util/ValidationUtil.java
