@@ -33,7 +33,7 @@ class UserArrayAccessDataServiceTest {
     @Test
     void canReturnAlUsers() {
         int actual = underTest.getUsers().size();
-        assertThat(underTest.getUsers().size()).isEqualTo(4);
+        assertThat(actual).isEqualTo(3); // 3 users initialized by default
     }
 
     @Test
