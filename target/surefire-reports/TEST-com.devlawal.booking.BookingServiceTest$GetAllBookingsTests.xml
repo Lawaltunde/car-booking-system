@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.devlawal.booking.BookingServiceTest$GetAllBookingsTests" time="0.001" tests="2" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.devlawal.booking.BookingServiceTest$GetAllBookingsTests" time="0.002" tests="2" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="24"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -13,7 +13,7 @@
     <property name="user.country" value="CA"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.boot.library.path" value="/Users/lawaltunde/Library/Java/JavaVirtualMachines/openjdk-24.0.2+12-54/Contents/Home/lib"/>
-    <property name="sun.java.command" value="/Users/lawaltunde/code/car-booking-system/target/surefire/surefirebooter-20260215183227041_3.jar /Users/lawaltunde/code/car-booking-system/target/surefire 2026-02-15T18-32-27_006-jvmRun1 surefire-20260215183227041_1tmp surefire_0-20260215183227041_2tmp"/>
+    <property name="sun.java.command" value="/Users/lawaltunde/code/car-booking-system/target/surefire/surefirebooter-20260226150205460_3.jar /Users/lawaltunde/code/car-booking-system/target/surefire 2026-02-26T15-02-05_419-jvmRun1 surefire-20260226150205460_1tmp surefire_0-20260226150205460_2tmp"/>
     <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="/Users/lawaltunde/code/car-booking-system/target/test-classes:/Users/lawaltunde/code/car-booking-system/target/classes:/Users/lawaltunde/.m2/repository/org/junit/jupiter/junit-jupiter-api/6.0.1/junit-jupiter-api-6.0.1.jar:/Users/lawaltunde/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/lawaltunde/.m2/repository/org/junit/platform/junit-platform-commons/6.0.1/junit-platform-commons-6.0.1.jar:/Users/lawaltunde/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/lawaltunde/.m2/repository/org/jspecify/jspecify/1.0.0/jspecify-1.0.0.jar:/Users/lawaltunde/.m2/repository/org/assertj/assertj-core/3.27.7/assertj-core-3.27.7.jar:/Users/lawaltunde/.m2/repository/net/bytebuddy/byte-buddy/1.18.3/byte-buddy-1.18.3.jar:/Users/lawaltunde/.m2/repository/com/github/javafaker/javafaker/1.0.2/javafaker-1.0.2.jar:/Users/lawaltunde/.m2/repository/org/apache/commons/commons-lang3/3.5/commons-lang3-3.5.jar:/Users/lawaltunde/.m2/repository/org/yaml/snakeyaml/1.23/snakeyaml-1.23-android.jar:/Users/lawaltunde/.m2/repository/com/github/mifmif/generex/1.0.2/generex-1.0.2.jar:/Users/lawaltunde/.m2/repository/dk/brics/automaton/automaton/1.11-8/automaton-1.11-8.jar:/Users/lawaltunde/.m2/repository/org/mockito/mockito-core/5.20.0/mockito-core-5.20.0.jar:/Users/lawaltunde/.m2/repository/net/bytebuddy/byte-buddy-agent/1.17.7/byte-buddy-agent-1.17.7.jar:/Users/lawaltunde/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/Users/lawaltunde/.m2/repository/org/mockito/mockito-junit-jupiter/5.20.0/mockito-junit-jupiter-5.20.0.jar:"/>
@@ -31,7 +31,7 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="apple.awt.application.name" value="ForkedBooter"/>
-    <property name="surefire.real.class.path" value="/Users/lawaltunde/code/car-booking-system/target/surefire/surefirebooter-20260215183227041_3.jar"/>
+    <property name="surefire.real.class.path" value="/Users/lawaltunde/code/car-booking-system/target/surefire/surefirebooter-20260226150205460_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.runtime.version" value="24.0.2+12-54"/>
@@ -64,5 +64,5 @@
     <property name="java.class.version" value="68.0"/>
   </properties>
   <testcase name="shouldReturnAllBookings" classname="com.devlawal.booking.BookingServiceTest$GetAllBookingsTests" time="0.001"/>
-  <testcase name="shouldReturnEmptyListWhenNoBookings" classname="com.devlawal.booking.BookingServiceTest$GetAllBookingsTests" time="0.0"/>
+  <testcase name="shouldReturnEmptyListWhenNoBookings" classname="com.devlawal.booking.BookingServiceTest$GetAllBookingsTests" time="0.001"/>
 </testsuite>

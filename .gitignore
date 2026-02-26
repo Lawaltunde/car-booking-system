@@ -28,8 +28,3 @@ bin/
 
 ### Mac OS ###
 .DS_Store
-
-### Local Documentation ###
-REFACTORING_SUMMARY.md
-BEFORE_AFTER_GUIDE.md
-EXCEPTION_HANDLING_IMPROVEMENTS.md
